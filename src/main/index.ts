@@ -6,16 +6,21 @@ import icon from "../../resources/icon.png?asset";
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1000,
+    width: 900,
     height: 700,
+    minWidth: 900,
+    minHeight: 700,
+    show: false,
     autoHideMenuBar: true,
     ...(process.platform === "linux" ? { icon } : {}),
     center: true,
     title: "NoteMark",
-    frame: false,
-    visualEffectState: "followWindow",
-    titleBarStyle: "hidden",
-    transparent: true,
+    backgroundColor: "#000",
+    backgroundMaterial: "tabbed",
+    // visualEffectState: "active",
+    // transparent: true,
+    frame: true,
+    // titleBarStyle: "hidden",
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: true,
@@ -24,7 +29,7 @@ function createWindow(): void {
   });
 
   mainWindow.on("ready-to-show", () => {
-    mainWindow.show();
+    mainWindow?.show();
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
