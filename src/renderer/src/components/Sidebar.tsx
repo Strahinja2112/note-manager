@@ -16,12 +16,16 @@ export default function Sidebar({ className, ...props }: ComponentProps<"aside">
           <Trash className="w-5 h-5 text-zinc-300" />
         </Button>
       </div>
-      <div className={cn("w-[250px] h-[100vh + 10px] overflow-auto", className)}>
-        <ul className="space-y-1">
-          {mocks.map((note, idx) => (
-            <NotePreview key={note.title + note.lastEditTime} isActive={idx === 1} note={note} />
-          ))}
-        </ul>
+      <div className={cn("w-[270px] h-[100vh] overflow-auto", className)}>
+        {mocks.length === 0 ? (
+          <div className="text-center text-xl pt-4">No notes yet! :(</div>
+        ) : (
+          <ul className="space-y-1 w-full">
+            {mocks.map((note, idx) => (
+              <NotePreview key={note.title + note.lastEditTime} isActive={idx === 1} note={note} />
+            ))}
+          </ul>
+        )}
       </div>
     </aside>
   );

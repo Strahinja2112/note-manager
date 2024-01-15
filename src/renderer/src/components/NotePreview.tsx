@@ -10,7 +10,7 @@ export default function NotePreview({ note, isActive }: Props) {
   return (
     <li
       className={cn(
-        "w-full border transition cursor-pointer hover:bg-white/10 border-zinc-900 rounded-lg p-2 gap-2 flex flex-col",
+        "w-full transition cursor-pointer hover:bg-white/10 border-zinc-900 rounded-lg p-2 gap-2 flex flex-col",
         isActive && "bg-white/5 border-zinc-800"
       )}
     >
