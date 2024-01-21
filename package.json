@@ -22,7 +22,9 @@
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
     "@mdxeditor/editor": "^2.3.2",
+    "@paralleldrive/cuid2": "^2.2.2",
     "fs-extra": "^11.2.0",
+    "jotai": "^2.6.2",
     "lucide-react": "^0.309.0"
   },
   "devDependencies": {

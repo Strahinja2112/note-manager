@@ -1,13 +1,23 @@
+import { useNotes } from "@renderer/hooks/useNotes";
 import { cn } from "@renderer/utils";
-import { mocks } from "@shared/constants";
 import { Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import Button from "./Button";
 import NotePreview from "./NotePreview";
 
-export default function Sidebar({ className, ...props }: ComponentProps<"aside">) {
+export default function Sidebar({
+  className,
+  onSelect,
+  ...props
+}: ComponentProps<"aside"> & {
+  onSelect(): void;
+}) {
+  const { notes, selectedIdx, handleNotesSelect } = useNotes({});
+
+  console.log({ notes });
+
   return (
-    <aside className="z-[100]" {...props}>
+    <aside className="z-[100]" onClick={onSelect} {...props}>
       <div className="w-full flex p-2 items-center justify-between">
         <Button>
           <Plus className="w-5 h-5 text-zinc-300" />
@@ -17,12 +27,17 @@ export default function Sidebar({ className, ...props }: ComponentProps<"aside">
         </Button>
       </div>
       <div className={cn("w-[270px] h-[100vh] overflow-auto", className)}>
-        {mocks.length === 0 ? (
+        {notes.length === 0 ? (
           <div className="text-center text-xl pt-4">No notes yet! :(</div>
         ) : (
           <ul className="space-y-1 w-full">
-            {mocks.map((note, idx) => (
-              <NotePreview key={note.title + note.lastEditTime} isActive={idx === 1} note={note} />
+            {notes.map((note, idx) => (
+              <NotePreview
+                onNoteSelect={handleNotesSelect(idx)}
+                key={note.title + note.lastEditTime}
+                isActive={idx === selectedIdx}
+                note={note}
+              />
             ))}
           </ul>
         )}
