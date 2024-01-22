@@ -2,7 +2,7 @@ import { INoteInfo } from "./types";
 
 export const appDirectoryName = "DIRECTORY";
 
-export const mocks: INoteInfo[] = [
+export const mockNotes: INoteInfo[] = [
   {
     lastEditTime: new Date().getTime(),
     title: "Welcome"

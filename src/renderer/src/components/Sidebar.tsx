@@ -14,8 +14,6 @@ export default function Sidebar({
 }) {
   const { notes, selectedIdx, handleNotesSelect } = useNotes({});
 
-  console.log({ notes });
-
   return (
     <aside className="z-[100]" onClick={onSelect} {...props}>
       <div className="w-full flex p-2 items-center justify-between">
