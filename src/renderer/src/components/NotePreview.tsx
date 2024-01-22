@@ -26,8 +26,8 @@ export default function NotePreview({
       )}
       {...props}
     >
-      <h3 className="text-xl mb-1 font-bold truncate">{note.title}</h3>
-      <span className="inline-block w-full mb-2 text-xs font-light">
+      <h3 className="text-xl mb-1 truncate">{note.title}</h3>
+      <span className="inline-block text-[#b5b5b5] w-full mb-2 text-xs">
         {formatDateFromMs(note.lastEditTime)}
       </span>
     </li>

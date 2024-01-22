@@ -1,6 +1,6 @@
 import { useNotes } from "@renderer/hooks/useNotes";
 import { cn } from "@renderer/utils";
-import { Plus, Trash } from "lucide-react";
+import { MoreHorizontal, Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import Button from "./Button";
 import NotePreview from "./NotePreview";
@@ -25,20 +25,16 @@ export default function Sidebar({
         </Button>
       </div>
       <div className={cn("w-[270px] h-[100vh] overflow-auto", className)}>
-        {notes.length === 0 ? (
-          <div className="text-center text-xl pt-4">No notes yet! :(</div>
-        ) : (
-          <ul className="space-y-1 w-full">
-            {notes.map((note, idx) => (
-              <NotePreview
-                onNoteSelect={handleNotesSelect(idx)}
-                key={note.title + note.lastEditTime}
-                isActive={idx === selectedIdx}
-                note={note}
-              />
-            ))}
-          </ul>
-        )}
+        <ul className="space-y-1 w-full">
+          {notes.map((note, idx) => (
+            <NotePreview
+              onNoteSelect={handleNotesSelect(idx)}
+              key={note.title + note.lastEditTime}
+              isActive={idx === selectedIdx}
+              note={note}
+            />
+          ))}
+        </ul>
       </div>
     </aside>
   );
