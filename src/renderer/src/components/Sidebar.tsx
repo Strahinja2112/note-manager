@@ -2,7 +2,7 @@ import { useNotes } from "@renderer/hooks/useNotes";
 import { createEmptyNoteAtom, deleteNoteAtom } from "@renderer/store";
 import { cn } from "@renderer/utils";
 import { useSetAtom } from "jotai";
-import { MoreHorizontal, Plus, Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import Button from "./Button";
 import NotePreview from "./NotePreview";
