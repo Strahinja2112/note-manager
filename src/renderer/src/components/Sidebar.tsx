@@ -1,5 +1,7 @@
 import { useNotes } from "@renderer/hooks/useNotes";
+import { createEmptyNoteAtom, deleteNoteAtom } from "@renderer/store";
 import { cn } from "@renderer/utils";
+import { useSetAtom } from "jotai";
 import { MoreHorizontal, Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import Button from "./Button";
@@ -14,13 +16,16 @@ export default function Sidebar({
 }) {
   const { notes, selectedIdx, handleNotesSelect } = useNotes({});
 
+  const onCreate = useSetAtom(createEmptyNoteAtom);
+  const onDelete = useSetAtom(deleteNoteAtom);
+
   return (
     <aside className="z-[100]" onClick={onSelect} {...props}>
       <div className="w-full flex p-2 items-center justify-between">
-        <Button>
+        <Button onClick={onCreate}>
           <Plus className="w-5 h-5 text-zinc-300" />
         </Button>
-        <Button>
+        <Button onClick={onDelete}>
           <Trash className="w-5 h-5 text-zinc-300" />
         </Button>
       </div>

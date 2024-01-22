@@ -21,3 +21,32 @@ export const selectedNoteAtom = atom((get) => {
     content: `Hello from the #${selectedIdx} note!`
   };
 });
+
+export const createEmptyNoteAtom = atom(null, (get, set) => {
+  const allNotes = get(notesAtom);
+
+  const newNote: INoteInfo = {
+    title: `Note ${allNotes.length + 1}`,
+    lastEditTime: new Date().getTime()
+  };
+
+  set(notesAtom, [newNote, ...allNotes.filter((note) => note.title !== newNote.title)]);
+
+  set(selectedNoteIndexAtom, 0);
+});
+
+export const deleteNoteAtom = atom(null, (get, set) => {
+  const allNotes = get(notesAtom);
+  const selectedNote = get(selectedNoteAtom);
+
+  if (!selectedNote) {
+    return;
+  }
+
+  set(
+    notesAtom,
+    allNotes.filter((note) => note.title !== selectedNote.title)
+  );
+
+  set(selectedNoteIndexAtom, null);
+});
