@@ -6,7 +6,6 @@ import {
   quotePlugin
 } from "@mdxeditor/editor";
 
-import { useSetAtom } from "jotai";
 import { FileText, PencilIcon, Plus, StickyNoteIcon } from "lucide-react";
 import { useRef } from "react";
 import Editor from "./components/Editor";
@@ -15,14 +14,12 @@ import Sidebar from "./components/Sidebar";
 import useMarkdownEditor from "./hooks/useMarkdownEditor";
 import { useNotes } from "./hooks/useNotes";
 import RootLayout from "./layouts/RootLayout";
-import { createEmptyNoteAtom } from "./store";
 
 export default function App() {
   const editorRef = useRef<HTMLDivElement>(null);
 
   const { selectedNote } = useMarkdownEditor();
-  const { notes } = useNotes({});
-  const onCreate = useSetAtom(createEmptyNoteAtom);
+  const { notes, onCreate } = useNotes({});
 
   return (
     <RootLayout>

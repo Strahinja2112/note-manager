@@ -1,7 +1,5 @@
 import { useNotes } from "@renderer/hooks/useNotes";
-import { createEmptyNoteAtom, deleteNoteAtom } from "@renderer/store";
 import { cn } from "@renderer/utils";
-import { useSetAtom } from "jotai";
 import { Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import Button from "./Button";
@@ -14,10 +12,7 @@ export default function Sidebar({
 }: ComponentProps<"aside"> & {
   onSelect(): void;
 }) {
-  const { notes, selectedIdx, handleNotesSelect } = useNotes({});
-
-  const onCreate = useSetAtom(createEmptyNoteAtom);
-  const onDelete = useSetAtom(deleteNoteAtom);
+  const { notes, selectedIdx, handleNotesSelect, onCreate, onDelete } = useNotes({});
 
   return (
     <aside className="z-[100]" onClick={onSelect} {...props}>

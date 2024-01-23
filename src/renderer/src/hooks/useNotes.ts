@@ -1,5 +1,10 @@
-import { notesAtom, selectedNoteIndexAtom } from "@renderer/store";
-import { useAtom, useAtomValue } from "jotai";
+import {
+  createEmptyNoteAtom,
+  deleteNoteAtom,
+  notesAtom,
+  selectedNoteIndexAtom
+} from "@renderer/store";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 
 type Props = {
   onSelect?(): void;
@@ -7,6 +12,9 @@ type Props = {
 
 export function useNotes({ onSelect }: Props) {
   const notes = useAtomValue(notesAtom);
+
+  const onCreate = useSetAtom(createEmptyNoteAtom);
+  const onDelete = useSetAtom(deleteNoteAtom);
 
   const [selectedIdx, setSelectedIdx] = useAtom(selectedNoteIndexAtom);
 
@@ -20,6 +28,8 @@ export function useNotes({ onSelect }: Props) {
   return {
     notes,
     selectedIdx,
-    handleNotesSelect
+    handleNotesSelect,
+    onCreate,
+    onDelete
   };
 }
