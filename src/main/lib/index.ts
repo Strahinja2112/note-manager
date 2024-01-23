@@ -8,9 +8,7 @@ export function getRootDir(): string {
 }
 
 export async function getNotes(): Promise<INoteInfo[]> {
-  console.log("CALLED");
   const rootDir = getRootDir();
-  console.log(rootDir);
 
   await ensureDir(rootDir);
 

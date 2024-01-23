@@ -41,9 +41,11 @@
     border-radius: 10px;
     overflow: hidden;
   }
+
   body {
     backdrop-filter: blur(10px);
   }
+
   main {
     min-height: 100vh;
   }
@@ -60,8 +62,6 @@
     @apply select-none;
 
     @apply antialiased text-white;
-
-    @apply overflow-hidden;
   }
 
   .header {

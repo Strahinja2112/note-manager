@@ -1,12 +1,7 @@
-import { selectedNoteAtom } from "@renderer/store";
-import { useAtomValue } from "jotai";
+import { useNotes } from "@renderer/store/useNotes";
 
-type Props = {};
-
-export default function NoteTitle({}: Props) {
-  const selectedNote = useAtomValue(selectedNoteAtom);
-
-  console.log({ selectedNote });
+export default function NoteTitle() {
+  const { selectedNote } = useNotes();
 
   return (
     <div className="flex pt-2 justify-center">

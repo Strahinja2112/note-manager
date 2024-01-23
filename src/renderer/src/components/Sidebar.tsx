@@ -1,4 +1,4 @@
-import { useNotes } from "@renderer/hooks/useNotes";
+import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
 import { Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
@@ -13,7 +13,7 @@ export default function Sidebar({
 }: ComponentProps<"aside"> & {
   onSelect(): void;
 }) {
-  const { notes, selectedIdx, handleNotesSelect, onCreate, onDelete } = useNotes({});
+  const { notes, selectedNote, onCreate, onDelete, onNoteSelect } = useNotes();
 
   return (
     <aside className="z-[100]" onClick={onSelect} {...props}>
@@ -30,9 +30,9 @@ export default function Sidebar({
         <ul className="space-y-1 w-full">
           {notes?.map((note, idx) => (
             <NotePreview
-              onNoteSelect={handleNotesSelect(idx)}
+              onNoteSelect={() => onNoteSelect(idx)}
               key={note.title + note.lastEditTime}
-              isActive={idx === selectedIdx}
+              isActive={note.title === selectedNote?.title}
               note={note}
             />
           ))}
