@@ -1,5 +1,5 @@
 {
-  "name": "note-mark",
+  "name": "note-manager",
   "version": "1.0.0",
   "description": "A Markdown Note taking app built with Electron",
   "license": "MIT",

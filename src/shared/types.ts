@@ -1,4 +1,4 @@
-import { getNotes } from "src/main/lib";
+import { getNotes, readNoteData } from "src/main/lib";
 
 export interface INoteInfo {
   title: string;
@@ -6,3 +6,4 @@ export interface INoteInfo {
 }
 
 export type TGetNotes = typeof getNotes;
+export type TReadNoteData = typeof readNoteData;

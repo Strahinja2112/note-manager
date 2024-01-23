@@ -12,7 +12,8 @@ try {
       minimize: () => ipcRenderer.invoke("minimizeWindow"),
       maximize: () => ipcRenderer.invoke("maximizeWindow")
     },
-    getNotes: () => ipcRenderer.invoke("getNotes")
+    getNotes: () => ipcRenderer.invoke("getNotes"),
+    readNoteData: (fileName: string) => ipcRenderer.invoke("readNoteData", fileName)
   });
 } catch (error) {
   console.error(error);

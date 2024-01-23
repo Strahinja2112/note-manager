@@ -1,8 +1,8 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { TGetNotes } from "@shared/types";
+import { TGetNotes, TReadNoteData } from "@shared/types";
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import { join } from "path";
-import { getNotes } from "./lib";
+import { getNotes, readNoteData } from "./lib";
 // ! THROWS ERROR
 // import icon from "../../resources/icon.png";
 
@@ -53,21 +53,11 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window);
   });
 
-  ipcMain.handle("getNotes", (_, ...args: Parameters<TGetNotes>) => getNotes(...args));
-
-  ipcMain.handle("closeWindow", () => app.quit());
-  ipcMain.handle("minimizeWindow", () => mainWindow?.minimize());
-  ipcMain.handle("maximizeWindow", () => {
-    if (mainWindow?.isMaximized()) {
-      mainWindow?.unmaximize();
-    } else {
-      mainWindow?.maximize();
-    }
-  });
-
+  handleNoteEvents();
+  handleWindowEvents();
   createWindow();
 
-  app.on("activate", function () {
+  app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
@@ -77,3 +67,20 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
+function handleNoteEvents() {
+  ipcMain.handle("getNotes", (_, ...args: Parameters<TGetNotes>) => getNotes(...args));
+  ipcMain.handle("readNoteData", (_, ...args: Parameters<TReadNoteData>) => readNoteData(...args));
+}
+
+function handleWindowEvents() {
+  ipcMain.handle("closeWindow", () => app.quit());
+  ipcMain.handle("minimizeWindow", () => mainWindow?.minimize());
+  ipcMain.handle("maximizeWindow", () => {
+    if (mainWindow?.isMaximized()) {
+      mainWindow?.unmaximize();
+    } else {
+      mainWindow?.maximize();
+    }
+  });
+}
