@@ -18,7 +18,7 @@ import { useNotes } from "./store/useNotes";
 export default function App() {
   const editorRef = useRef<HTMLDivElement>(null);
 
-  const { selectedNote, notes, onCreate } = useNotes();
+  const { selectedNote, notes, onCreate, onSave } = useNotes();
 
   return (
     <RootLayout>
@@ -27,6 +27,7 @@ export default function App() {
           <>
             <NoteTitle />
             <MDXEditor
+              onChange={onSave}
               key={selectedNote.title + selectedNote.lastEditTime}
               markdown={selectedNote.content}
               plugins={[headingsPlugin(), listsPlugin(), quotePlugin(), markdownShortcutPlugin()]}

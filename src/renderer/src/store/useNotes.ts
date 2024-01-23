@@ -11,6 +11,7 @@ type Props = {
   onCreate(): Promise<void>;
   onDelete(): Promise<void>;
   onNoteSelect(idx: number): Promise<void>;
+  onSave(markdown: string): Promise<void>;
 };
 
 export const useStore = create<Props>((set, get) => ({
@@ -73,6 +74,18 @@ export const useStore = create<Props>((set, get) => ({
         content
       }
     });
+  },
+  async onSave(markdown: string) {
+    debugger;
+    const { selectedNote } = get();
+
+    if (!selectedNote) return;
+
+    try {
+      await window.context.saveNote(selectedNote.title, markdown);
+    } catch (error) {
+      console.error(error);
+    }
   }
 }));
 
@@ -96,8 +109,6 @@ export function useNotes() {
       fetchData();
     }
   }, []);
-
-  console.log(hasCalled.current);
 
   return store;
 }
