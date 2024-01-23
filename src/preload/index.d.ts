@@ -1,11 +1,11 @@
-// !!!!!!!! DONT REMOVE THIS IMPORT, YOU HAVE TO HAVE AT LEAST ONE IMPORT HERE
-import React from "react";
+import { TGetNotes } from "@shared/types";
 
 declare global {
   interface Window {
-    electron: ElectronAPI;
+    // electron: ElectronAPI;
     context: {
       locale: navigator.language;
+      getNotes: TGetNotes;
     };
   }
 }

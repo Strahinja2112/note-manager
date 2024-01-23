@@ -26,7 +26,7 @@ export default function Sidebar({
       </div>
       <div className={cn("w-[270px] h-[100vh] overflow-auto", className)}>
         <ul className="space-y-1 w-full">
-          {notes.map((note, idx) => (
+          {notes?.map((note, idx) => (
             <NotePreview
               onNoteSelect={handleNotesSelect(idx)}
               key={note.title + note.lastEditTime}

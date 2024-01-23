@@ -1,8 +1,8 @@
-import { getAllNotes } from "src/main/lib";
+import { getNotes } from "src/main/lib";
 
 export interface INoteInfo {
   title: string;
   lastEditTime: number;
 }
 
-export type GetAllNotes = typeof getAllNotes;
+export type TGetNotes = typeof getNotes;

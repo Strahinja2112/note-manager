@@ -34,7 +34,7 @@ export default function App() {
               contentEditableClassName="outline-none min-h-screen max-w-none text-lg px-8 py-5 caret-yellow-500 prose prose-invert prose-p:my-3 prose-p:leading-relaxed prose-headings:my-4 prose-blockquote:my-4 prose-ul:my-2 prose-li:my-0 prose-code:px-1 prose-code:text-red-500 prose-code:before:content-[''] prose-code:after:content-['']"
             />
           </>
-        ) : notes.length === 0 ? (
+        ) : notes?.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full">
             <PencilIcon className="h-16 w-16 text-zinc-400 mb-4" />
             <h2 className="text-2xl font-semibold text-zinc-300 mb-2">No Notes Yet</h2>
@@ -70,7 +70,7 @@ export default function App() {
           </div>
         )}
       </Editor>
-      {notes.length > 0 ? (
+      {notes && notes?.length > 0 ? (
         <Sidebar
           onSelect={() => {
             editorRef.current?.scrollTo({
