@@ -36,11 +36,14 @@
 
   #root {
     @apply h-screen;
-    background-color: #0b0b0b !important;
-    /* opacity: 0.99;
-    border-radius: 10px; */
+    background-color: transparent !important;
+    opacity: 0.994;
+    border-radius: 10px;
+    overflow: hidden;
   }
-
+  body {
+    backdrop-filter: blur(10px);
+  }
   main {
     min-height: 100vh;
   }
@@ -56,14 +59,12 @@
 
     @apply select-none;
 
-    @apply bg-transparent;
-
     @apply antialiased text-white;
 
     @apply overflow-hidden;
   }
 
-  header {
+  .header {
     -webkit-app-region: drag;
   }
 

@@ -5,7 +5,7 @@ export default function RootLayout({ className, children, ...props }: ComponentP
   return (
     <div
       className={cn(
-        "flex border border-transparent flex-row items-stretch justify-center min-h-screen",
+        "flex bg-[#0b0b0b] flex-row items-stretch justify-center min-h-screen",
         className
       )}
       {...props}

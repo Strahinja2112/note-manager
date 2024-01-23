@@ -6,6 +6,11 @@ declare global {
     context: {
       locale: navigator.language;
       getNotes: TGetNotes;
+      windowActions: {
+        close(): void;
+        minimize(): void;
+        maximize(): void;
+      };
     };
   }
 }

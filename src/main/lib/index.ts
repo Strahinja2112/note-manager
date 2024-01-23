@@ -1,4 +1,4 @@
-import { IS_DEV, appDirectoryName, fileEncoding } from "@shared/constants";
+import { appDirectoryName, fileEncoding } from "@shared/constants";
 import { INoteInfo } from "@shared/types";
 import { ensureDir, readdir, stat } from "fs-extra";
 import { homedir } from "os";
@@ -14,12 +14,12 @@ export async function getNotes(): Promise<INoteInfo[]> {
 
   await ensureDir(rootDir);
 
-  const notesFileNames = await readdir(rootDir, {
+  const allFiles = await readdir(rootDir, {
     encoding: fileEncoding,
     withFileTypes: false
   });
 
-  const allNotes = notesFileNames.filter((file) => file.endsWith(".md"));
+  const allNotes = allFiles.filter((file) => file.endsWith(".md"));
 
   return Promise.all(allNotes.map(getNoteInfo));
 }

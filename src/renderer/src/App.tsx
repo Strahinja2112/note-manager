@@ -11,6 +11,7 @@ import { useRef } from "react";
 import Editor from "./components/Editor";
 import NoteTitle from "./components/NoteTitle";
 import Sidebar from "./components/Sidebar";
+import Titlebar from "./components/Titlebar";
 import useMarkdownEditor from "./hooks/useMarkdownEditor";
 import { useNotes } from "./hooks/useNotes";
 import RootLayout from "./layouts/RootLayout";
@@ -35,25 +36,28 @@ export default function App() {
             />
           </>
         ) : notes?.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full">
-            <PencilIcon className="h-16 w-16 text-zinc-400 mb-4" />
-            <h2 className="text-2xl font-semibold text-zinc-300 mb-2">No Notes Yet</h2>
-            <p className="text-zinc-400 mb-6">Start by clicking one of the buttons below.</p>
-            <div className="flex pt-5 border-t border-t-[#1f1f1f] items-center justify-center gap-2">
-              <button className="self-center border border-zinc-600 text-zinc-400 transition hover:bg-zinc-800/80 p-2 rounded-lg flex gap-2 hover:text-zinc-100">
-                <FileText />
-                Import existing note
-              </button>
-              <span className="px-3 text-zinc-500 dark:text-zinc-400">OR</span>
-              <button
-                className="self-center border border-zinc-600 text-zinc-400 transition hover:bg-zinc-800/80 p-2 rounded-lg flex gap-2 hover:text-zinc-100"
-                onClick={onCreate}
-              >
-                <Plus />
-                Create New Note
-              </button>
+          <>
+            <Titlebar className="absolute top-0 inset-0" />
+            <div className="flex flex-col items-center justify-center h-full">
+              <PencilIcon className="h-16 w-16 text-zinc-400 mb-4" />
+              <h2 className="text-2xl font-semibold text-zinc-300 mb-2">No Notes Yet</h2>
+              <p className="text-zinc-400 mb-6">Start by clicking one of the buttons below.</p>
+              <div className="flex pt-5 border-t border-t-[#1f1f1f] items-center justify-center gap-2">
+                <button className="self-center border border-zinc-600 text-zinc-400 transition hover:bg-zinc-800/80 p-2 rounded-lg flex gap-2 hover:text-zinc-100">
+                  <FileText />
+                  Import existing note
+                </button>
+                <span className="px-3 text-zinc-500 dark:text-zinc-400">OR</span>
+                <button
+                  className="self-center border border-zinc-600 text-zinc-400 transition hover:bg-zinc-800/80 p-2 rounded-lg flex gap-2 hover:text-zinc-100"
+                  onClick={onCreate}
+                >
+                  <Plus />
+                  Create New Note
+                </button>
+              </div>
             </div>
-          </div>
+          </>
         ) : (
           <div className="flex flex-col items-center h-full justify-center space-y-4">
             <StickyNoteIcon className="h-12 w-12 text-zinc-200" />

@@ -3,6 +3,7 @@ import { cn } from "@renderer/utils";
 import { Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import NotePreview from "./NotePreview";
+import Titlebar from "./Titlebar";
 import { Button } from "./ui/button";
 
 export default function Sidebar({
@@ -16,6 +17,7 @@ export default function Sidebar({
 
   return (
     <aside className="z-[100]" onClick={onSelect} {...props}>
+      <Titlebar />
       <div className="w-full flex p-2 items-center justify-between">
         <Button onClick={onCreate} size="tiny">
           <Plus className="w-5 h-5 text-zinc-300" />

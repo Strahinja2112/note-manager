@@ -6,8 +6,10 @@ import { getNotes } from "./lib";
 // ! THROWS ERROR
 // import icon from "../../resources/icon.png";
 
+let mainWindow: BrowserWindow | null = null;
+
 function createWindow(): void {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1050,
     height: 700,
     minWidth: 900,
@@ -16,13 +18,9 @@ function createWindow(): void {
     autoHideMenuBar: true,
     // ...(process.platform === "linux" ? { icon } : {}),
     center: true,
-    title: "NoteMark",
-    backgroundColor: "#000",
-    backgroundMaterial: "tabbed",
-    // visualEffectState: "active",
-    // transparent: true,
-    frame: true,
-    // titleBarStyle: "hidden",
+    title: "Note Manager",
+    transparent: true,
+    frame: false,
     webPreferences: {
       preload: join(__dirname, "../preload/index.js"),
       sandbox: true,
@@ -56,6 +54,16 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle("getNotes", (_, ...args: Parameters<TGetNotes>) => getNotes(...args));
+
+  ipcMain.handle("closeWindow", () => app.quit());
+  ipcMain.handle("minimizeWindow", () => mainWindow?.minimize());
+  ipcMain.handle("maximizeWindow", () => {
+    if (mainWindow?.isMaximized()) {
+      mainWindow?.unmaximize();
+    } else {
+      mainWindow?.maximize();
+    }
+  });
 
   createWindow();
 
