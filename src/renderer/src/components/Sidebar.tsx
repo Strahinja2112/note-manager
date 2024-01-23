@@ -17,10 +17,10 @@ export default function Sidebar({
   return (
     <aside className="z-[100]" onClick={onSelect} {...props}>
       <div className="w-full flex p-2 items-center justify-between">
-        <Button onClick={onCreate}>
+        <Button onClick={onCreate} size="tiny">
           <Plus className="w-5 h-5 text-zinc-300" />
         </Button>
-        <Button onClick={onDelete}>
+        <Button onClick={onDelete} size="tiny">
           <Trash className="w-5 h-5 text-zinc-300" />
         </Button>
       </div>
