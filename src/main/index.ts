@@ -1,17 +1,18 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
 import { BrowserWindow, app, shell } from "electron";
 import { join } from "path";
-import icon from "../../resources/icon.png?asset";
+// ! THROWS ERROR
+// import icon from "../../resources/icon.png";
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 1050,
     height: 700,
     minWidth: 900,
-    minHeight: 500,
+    minHeight: 700,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === "linux" ? { icon } : {}),
+    // ...(process.platform === "linux" ? { icon } : {}),
     center: true,
     title: "NoteMark",
     backgroundColor: "#000",
@@ -29,9 +30,6 @@ function createWindow(): void {
 
   mainWindow.on("ready-to-show", () => {
     mainWindow?.show();
-    // setTimeout(() => {
-    //   mainWindow.title = "TEST";
-    // }, 2000);
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -55,7 +53,7 @@ app.whenReady().then(() => {
 
   createWindow();
 
-  app.on("activate", () => {
+  app.on("activate", function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });

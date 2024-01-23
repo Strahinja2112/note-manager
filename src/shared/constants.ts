@@ -1,5 +1,2 @@
-import { INoteInfo } from "./types";
-
-export const appDirectoryName = "DIRECTORY";
-
-export const mockNotes: INoteInfo[] = [];
+export const appDirectoryName = "notemark_data";
+export const fileEncoding = "utf8";

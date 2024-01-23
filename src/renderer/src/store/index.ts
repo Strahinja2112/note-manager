@@ -1,8 +1,7 @@
-import { mockNotes } from "@shared/constants";
 import { INoteInfo } from "@shared/types";
 import { atom } from "jotai";
 
-export const notesAtom = atom<INoteInfo[]>(mockNotes);
+export const notesAtom = atom<INoteInfo[]>([]);
 
 export const selectedNoteIndexAtom = atom<number | null>(null);
 
