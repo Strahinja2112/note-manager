@@ -21,7 +21,7 @@ export default function NotePreview({
         // activeNote.setNote(note);
       }}
       className={cn(
-        "w-full transition bg-zinc-900/40 cursor-pointer hover:bg-zinc-800 rounded-lg p-2 gap-1 flex flex-col",
+        "w-full transition bg-zinc-900/40 cursor-pointer hover:bg-zinc-800 rounded-md p-2 gap-1 flex flex-col",
         isActive && "bg-zinc-900"
       )}
       {...props}

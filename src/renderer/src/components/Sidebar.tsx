@@ -2,8 +2,8 @@ import { useNotes } from "@renderer/hooks/useNotes";
 import { cn } from "@renderer/utils";
 import { Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
-import Button from "./Button";
 import NotePreview from "./NotePreview";
+import { Button } from "./ui/button";
 
 export default function Sidebar({
   className,
