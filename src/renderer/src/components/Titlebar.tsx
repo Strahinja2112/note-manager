@@ -10,7 +10,7 @@ export default function Titlebar({ className }: { className?: string }) {
         className
       )}
     >
-      <span className="text-[13px] text-muted-foreground">Note Manager v1.1.2</span>
+      <span className="text-[13px] text-muted-foreground">Note Manager v1.4.2</span>
       <div className="flex items-stretch justify-center">
         <Button
           className="text-green-500"

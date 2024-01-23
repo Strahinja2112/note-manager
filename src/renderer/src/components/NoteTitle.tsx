@@ -4,8 +4,8 @@ export default function NoteTitle() {
   const { selectedNote } = useNotes();
 
   return (
-    <div className="flex pt-2 justify-center">
-      <span className="text-gray-400">{selectedNote?.title}</span>
+    <div className="flex sticky top-0 inset-0 h-8 backdrop-blur-lg border-b pt-1 justify-center">
+      <span className="text-gray-200">{selectedNote?.title}</span>
     </div>
   );
 }

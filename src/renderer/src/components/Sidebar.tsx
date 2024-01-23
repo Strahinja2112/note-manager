@@ -16,7 +16,7 @@ export default function Sidebar({
   const { notes, selectedNote, onCreate, onDelete, onNoteSelect } = useNotes();
 
   return (
-    <aside className="z-[100]" onClick={onSelect} {...props}>
+    <aside className="z-[100] border-l rounded-none" onClick={onSelect} {...props}>
       <Titlebar />
       <div className="w-full flex p-2 items-center justify-between">
         <Button onClick={onCreate} size="tiny">

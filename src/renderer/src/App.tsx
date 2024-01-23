@@ -18,24 +18,22 @@ import { useNotes } from "./store/useNotes";
 export default function App() {
   const editorRef = useRef<HTMLDivElement>(null);
 
-  const notes = useNotes();
-
-  console.log(notes);
+  const { selectedNote, notes, onCreate } = useNotes();
 
   return (
     <RootLayout>
-      <Editor ref={editorRef} className="rounded-none bg-zinc-900/40">
-        {notes.selectedNote ? (
+      <Editor ref={editorRef} className="rounded-none relative bg-zinc-900/40">
+        {selectedNote ? (
           <>
             <NoteTitle />
             <MDXEditor
-              key={notes.selectedNote.title + notes.selectedNote.lastEditTime}
-              markdown={notes.selectedNote.content}
+              key={selectedNote.title + selectedNote.lastEditTime}
+              markdown={selectedNote.content}
               plugins={[headingsPlugin(), listsPlugin(), quotePlugin(), markdownShortcutPlugin()]}
-              contentEditableClassName="outline-none min-h-screen max-w-none text-lg px-8 py-5 caret-yellow-500 prose prose-invert prose-p:my-3 prose-p:leading-relaxed prose-headings:my-4 prose-blockquote:my-4 prose-ul:my-2 prose-li:my-0 prose-code:px-1 prose-code:text-red-500 prose-code:before:content-[''] prose-code:after:content-['']"
+              contentEditableClassName="outline-none min-h-screen max-w-none text-lg px-8 pb-5 caret-yellow-500 prose prose-invert prose-p:my-3 prose-p:leading-relaxed prose-headings:my-4 prose-blockquote:my-4 prose-ul:my-2 prose-li:my-0 prose-code:px-1 prose-code:text-red-500 prose-code:before:content-[''] prose-code:after:content-['']"
             />
           </>
-        ) : notes.notes?.length === 0 ? (
+        ) : notes.length === 0 ? (
           <>
             <Titlebar className="absolute top-0 inset-0" />
             <div className="flex flex-col items-center justify-center h-full">
@@ -50,7 +48,7 @@ export default function App() {
                 <span className="px-3 text-zinc-500 dark:text-zinc-400">OR</span>
                 <button
                   className="self-center border border-zinc-600 text-zinc-400 transition hover:bg-zinc-800/80 p-2 rounded-lg flex gap-2 hover:text-zinc-100"
-                  onClick={notes.onCreate}
+                  onClick={onCreate}
                 >
                   <Plus />
                   Create New Note
@@ -66,7 +64,7 @@ export default function App() {
               Please select a note from the list or{" "}
               <button
                 className="underline transition hover:text-white animate-pulse"
-                onClick={notes.onCreate}
+                onClick={onCreate}
               >
                 create a new one.
               </button>
@@ -74,7 +72,7 @@ export default function App() {
           </div>
         )}
       </Editor>
-      {notes.notes && notes.notes?.length > 0 ? (
+      {notes.length > 0 ? (
         <Sidebar
           onSelect={() => {
             editorRef.current?.scrollTo({
