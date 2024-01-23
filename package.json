@@ -26,8 +26,8 @@
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "fs-extra": "^11.2.0",
-    "jotai": "^2.6.2",
     "lucide-react": "^0.314.0",
+    "react-resizable-panels": "^1.0.9",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.0"
   },

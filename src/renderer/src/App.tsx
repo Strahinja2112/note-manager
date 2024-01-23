@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <RootLayout>
-      <Editor ref={editorRef} className="rounded-none relative bg-zinc-900/40">
+      <Editor className="rounded-none relative bg-zinc-900/40">
         {selectedNote ? (
           <>
             <NoteTitle />
