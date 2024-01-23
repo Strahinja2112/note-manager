@@ -1,6 +1,6 @@
 import { appDirectoryName, fileEncoding } from "@shared/constants";
 import { INoteInfo } from "@shared/types";
-import { ensureDir, readFile, readdir, stat } from "fs-extra";
+import { ensureDir, readFile, readdir, stat, writeFile } from "fs-extra";
 import { homedir } from "os";
 
 export function getRootDir(): string {
@@ -34,6 +34,14 @@ export async function getNoteInfo(fileName: string): Promise<INoteInfo> {
 export async function readNoteData(fileName: string): Promise<string> {
   const rootDir = getRootDir();
   return readFile(`${rootDir}/${fileName}.md`, {
+    encoding: fileEncoding
+  });
+}
+
+export async function saveNote(title: string, content: string): Promise<void> {
+  const rootDir = getRootDir();
+
+  return writeFile(`${rootDir}/${title}.md`, content, {
     encoding: fileEncoding
   });
 }

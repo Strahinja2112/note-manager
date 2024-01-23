@@ -1,17 +1,8 @@
-import { TGetNotes, TReadNoteData } from "@shared/types";
+import { TGetNotes, TReadNoteData, TSaveNote } from "@shared/types";
+import { WindowContextAPI } from "../shared/types";
 
 declare global {
   interface Window {
-    // electron: ElectronAPI;
-    context: {
-      locale: navigator.language;
-      windowActions: {
-        close(): void;
-        minimize(): void;
-        maximize(): void;
-      };
-      getNotes: TGetNotes;
-      readNoteData: TReadNoteData;
-    };
+    context: WindowContextAPI;
   }
 }

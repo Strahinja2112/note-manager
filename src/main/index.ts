@@ -1,8 +1,8 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { TGetNotes, TReadNoteData } from "@shared/types";
+import { TGetNotes, TReadNoteData, TSaveNote } from "@shared/types";
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import { join } from "path";
-import { getNotes, readNoteData } from "./lib";
+import { getNotes, readNoteData, saveNote } from "./lib";
 // ! THROWS ERROR
 // import icon from "../../resources/icon.png";
 
@@ -71,6 +71,7 @@ app.on("window-all-closed", () => {
 function handleNoteEvents() {
   ipcMain.handle("getNotes", (_, ...args: Parameters<TGetNotes>) => getNotes(...args));
   ipcMain.handle("readNoteData", (_, ...args: Parameters<TReadNoteData>) => readNoteData(...args));
+  ipcMain.handle("saveNote", (_, ...args: Parameters<TSaveNote>) => saveNote(...args));
 }
 
 function handleWindowEvents() {

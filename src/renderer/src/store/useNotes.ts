@@ -8,7 +8,7 @@ type Props = {
   notes: INoteInfo[];
   selectedNote: TNoteInfoFull | null;
   setState(state: Partial<Props>): void;
-  onCreate(): void;
+  onCreate(): Promise<void>;
   onDelete(): Promise<void>;
   onNoteSelect(idx: number): Promise<void>;
 };
@@ -22,7 +22,7 @@ export const useStore = create<Props>((set, get) => ({
       ...state
     }));
   },
-  onCreate() {
+  async onCreate() {
     const oldState = get();
 
     const newNote: TNoteInfoFull = {
@@ -31,10 +31,16 @@ export const useStore = create<Props>((set, get) => ({
       content: "Edit this!"
     };
 
-    set({
-      notes: [newNote, ...oldState.notes],
-      selectedNote: newNote
-    });
+    try {
+      await window.context.saveNote(newNote.title, newNote.content);
+
+      set({
+        notes: [newNote, ...oldState.notes],
+        selectedNote: newNote
+      });
+    } catch (error) {
+      console.error(error);
+    }
   },
   async onDelete() {
     const { notes, selectedNote } = get();
