@@ -1,7 +1,7 @@
 import { useNotes } from "@renderer/store/useNotes";
-import { Check } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import DraggableTopbar from "./DraggableTopbar";
 
 export default function NoteTitle() {
   const [editing, setEditing] = useState(false);
@@ -30,7 +30,9 @@ export default function NoteTitle() {
               if (newName === "") {
                 toast.error("Please enter a valid file name!");
               } else {
-                onRename(selectedNote.title, newName);
+                onRename(selectedNote.title, newName).then(() => {
+                  toast.success("Your note was successfully renamed!");
+                });
                 setEditing(false);
               }
             }

@@ -23,7 +23,15 @@ export default function App() {
 
   return (
     <RootLayout>
-      <Toaster />
+      <Toaster
+        toastOptions={{
+          style: {
+            background: "rgb(25,25,25)",
+            border: "1px solid hsl(240 3.7% 15.9%)",
+            color: "white"
+          }
+        }}
+      />
       <Editor className="rounded-none relative bg-zinc-900/40">
         {selectedNote ? (
           <>

@@ -16,17 +16,9 @@ export default function Sidebar({
   const { notes, selectedNote, onCreate, onDelete, onNoteSelect } = useNotes();
 
   return (
-    <aside className="z-[100] border-l rounded-none" onClick={onSelect} {...props}>
+    <aside className="z-[100] h-[100vh] border-l rounded-none" onClick={onSelect} {...props}>
       <Titlebar />
-      <div className="w-full flex p-2 items-center justify-between">
-        <Button onClick={onCreate} size="tiny">
-          <Plus className="w-5 h-5 text-zinc-300" />
-        </Button>
-        <Button onClick={onDelete} size="tiny">
-          <Trash className="w-5 h-5 text-zinc-300" />
-        </Button>
-      </div>
-      <div className={cn("w-[270px] h-[100vh] overflow-auto", className)}>
+      <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px)] overflow-auto", className)}>
         <ul className="space-y-1 w-full">
           {notes?.map((note, idx) => (
             <NotePreview
@@ -37,6 +29,14 @@ export default function Sidebar({
             />
           ))}
         </ul>
+      </div>
+      <div className="w-full border border-l-0 rounded-br-xl flex p-2 items-center justify-between">
+        <Button onClick={onCreate} size="tiny">
+          <Plus className="w-5 h-5 text-zinc-300" />
+        </Button>
+        <Button onClick={onDelete} size="tiny">
+          <Trash className="w-5 h-5 text-zinc-300" />
+        </Button>
       </div>
     </aside>
   );
