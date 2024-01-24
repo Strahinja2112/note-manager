@@ -1,6 +1,7 @@
 import { appDirectoryName, fileEncoding } from "@shared/constants";
 import { INoteInfo } from "@shared/types";
-import { ensureDir, readFile, readdir, stat, writeFile } from "fs-extra";
+import { shell } from "electron";
+import { ensureDir, readFile, readdir, remove, stat, writeFile } from "fs-extra";
 import { homedir } from "os";
 
 export function getRootDir(): string {
@@ -44,4 +45,35 @@ export async function saveNote(title: string, content: string): Promise<void> {
   return writeFile(`${rootDir}/${title}.md`, content, {
     encoding: fileEncoding
   });
+}
+
+export async function renameNote(
+  oldTitle: string,
+  newTitle: string
+): Promise<{
+  success: boolean;
+  content: string;
+}> {
+  const rootDir = getRootDir();
+
+  try {
+    const content = await readNoteData(oldTitle);
+
+    await remove(`${rootDir}/${oldTitle}.md`);
+
+    await writeFile(`${rootDir}/${newTitle}.md`, content, {
+      encoding: fileEncoding
+    });
+
+    return {
+      success: true,
+      content
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      content: ""
+    };
+  }
 }

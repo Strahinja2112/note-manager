@@ -1,8 +1,8 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { TGetNotes, TReadNoteData, TSaveNote } from "@shared/types";
+import { TGetNotes, TReadNoteData, TRenameNote, TSaveNote } from "@shared/types";
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import { join } from "path";
-import { getNotes, readNoteData, saveNote } from "./lib";
+import { getNotes, readNoteData, renameNote, saveNote } from "./lib";
 // ! THROWS ERROR
 // import icon from "../../resources/icon.png";
 
@@ -16,7 +16,6 @@ function createWindow(): void {
     minHeight: 600,
     show: false,
     autoHideMenuBar: true,
-    alwaysOnTop: true,
     // ...(process.platform === "linux" ? { icon } : {}),
     center: true,
     title: "Note Manager",
@@ -73,6 +72,7 @@ function handleNoteEvents() {
   ipcMain.handle("getNotes", (_, ...args: Parameters<TGetNotes>) => getNotes(...args));
   ipcMain.handle("readNoteData", (_, ...args: Parameters<TReadNoteData>) => readNoteData(...args));
   ipcMain.handle("saveNote", (_, ...args: Parameters<TSaveNote>) => saveNote(...args));
+  ipcMain.handle("renameNote", (_, ...args: Parameters<TRenameNote>) => renameNote(...args));
 }
 
 function handleWindowEvents() {

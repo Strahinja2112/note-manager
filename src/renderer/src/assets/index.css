@@ -37,7 +37,7 @@
   #root {
     @apply h-screen;
     background-color: transparent !important;
-    opacity: 0.994;
+    /* opacity: 0.994; */
     border-radius: 10px;
     overflow: hidden;
   }

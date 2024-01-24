@@ -14,9 +14,9 @@ try {
       maximize: () => ipcRenderer.invoke("maximizeWindow")
     },
     getNotes: () => ipcRenderer.invoke("getNotes"),
-    readNoteData: (fileName: string) => ipcRenderer.invoke("readNoteData", fileName),
-    saveNote: (fileName: string, content: string) =>
-      ipcRenderer.invoke("saveNote", fileName, content)
+    readNoteData: (fileName) => ipcRenderer.invoke("readNoteData", fileName),
+    saveNote: (fileName, content) => ipcRenderer.invoke("saveNote", fileName, content),
+    renameNote: (title, newTitle) => ipcRenderer.invoke("renameNote", title, newTitle)
   };
 
   contextBridge.exposeInMainWorld("context", options);

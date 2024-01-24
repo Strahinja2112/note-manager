@@ -12,6 +12,7 @@ type Props = {
   onDelete(): Promise<void>;
   onNoteSelect(idx: number): Promise<void>;
   onSave(markdown: string): Promise<void>;
+  onRename(oldTitle: string, newTitle: string): Promise<void>;
 };
 
 export const useStore = create<Props>((set, get) => ({
@@ -86,6 +87,37 @@ export const useStore = create<Props>((set, get) => ({
     } catch (error) {
       console.error(error);
     }
+  },
+  async onRename(oldTitle: string, newTitle: string) {
+    const { success, content } = await window.context.renameNote(oldTitle, newTitle);
+    console.log(success);
+    if (!success) {
+      return;
+    }
+
+    const oldData = get();
+    const oldNote = oldData.notes.find((note) => note.title === oldTitle);
+    if (!oldNote) {
+      return;
+    }
+
+    const newNotes = oldData.notes.filter((note) => note.title !== oldTitle);
+
+    const selectedNote = {
+      ...oldNote,
+      title: newTitle
+    };
+
+    newNotes.push(selectedNote);
+
+    set({
+      notes: newNotes,
+      selectedNote: {
+        content,
+        title: selectedNote.title,
+        lastEditTime: selectedNote.lastEditTime
+      }
+    });
   }
 }));
 
