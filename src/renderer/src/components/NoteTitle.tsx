@@ -1,11 +1,13 @@
 import { useNotes } from "@renderer/store/useNotes";
 import { Check } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function NoteTitle() {
   const [editing, setEditing] = useState(false);
   const { selectedNote, onRename } = useNotes();
   const [newName, setNewName] = useState(selectedNote?.title || "");
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <div
@@ -14,6 +16,7 @@ export default function NoteTitle() {
     >
       {editing ? (
         <input
+          ref={inputRef}
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
           onClick={(e) => {
@@ -23,19 +26,23 @@ export default function NoteTitle() {
             }
           }}
           onKeyUp={(e) => {
-            console.log(e.key === "Enter");
             if (e.key === "Enter" && selectedNote?.title) {
-              onRename(selectedNote.title, newName);
-              setEditing(false);
+              if (newName === "") {
+                toast.error("Please enter a valid file name!");
+              } else {
+                onRename(selectedNote.title, newName);
+                setEditing(false);
+              }
             }
           }}
-          className="bg-transparent rounded-r-none outline-none border px-1 rounded-lg py-0.5 text-2xl"
+          className="bg-transparent outline-none border px-1 rounded-lg py-0.5 text-2xl"
         />
       ) : (
         <span
           onClick={(e) => {
             e.stopPropagation();
             setEditing(true);
+            inputRef.current?.focus();
           }}
           className="text-gray-200 cursor-pointer text-2xl"
         >

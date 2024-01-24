@@ -8,6 +8,7 @@ import {
 
 import { FileText, PencilIcon, Plus, StickyNoteIcon } from "lucide-react";
 import { useRef } from "react";
+import { Toaster } from "react-hot-toast";
 import Editor from "./components/Editor";
 import NoteTitle from "./components/NoteTitle";
 import Sidebar from "./components/Sidebar";
@@ -22,6 +23,7 @@ export default function App() {
 
   return (
     <RootLayout>
+      <Toaster />
       <Editor className="rounded-none relative bg-zinc-900/40">
         {selectedNote ? (
           <>

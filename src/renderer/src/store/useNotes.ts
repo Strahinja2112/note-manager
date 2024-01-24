@@ -90,7 +90,6 @@ export const useStore = create<Props>((set, get) => ({
   },
   async onRename(oldTitle: string, newTitle: string) {
     const { success, content } = await window.context.renameNote(oldTitle, newTitle);
-    console.log(success);
     if (!success) {
       return;
     }

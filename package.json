@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.0",
     "fs-extra": "^11.2.0",
     "lucide-react": "^0.314.0",
+    "react-hot-toast": "^2.4.1",
     "react-resizable-panels": "^1.0.9",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.0"
