@@ -16,6 +16,7 @@ function createWindow(): void {
     minHeight: 600,
     show: false,
     autoHideMenuBar: true,
+    alwaysOnTop: true,
     // ...(process.platform === "linux" ? { icon } : {}),
     center: true,
     title: "Note Manager",
