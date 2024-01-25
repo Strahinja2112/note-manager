@@ -1,7 +1,8 @@
 import { Accordion } from "@/components/ui/accordion";
 import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
-import { Plus, Trash } from "lucide-react";
+import { appDirectoryName } from "@shared/constants";
+import { FilePlus, Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import FileFolderTree from "./FileFolderTree";
 import Titlebar from "./Titlebar";
@@ -17,10 +18,14 @@ export default function Sidebar({
   const { filesAndFolders, onCreate, onDelete } = useNotes();
 
   return (
-    <aside className="z-[100] h-[100vh] border-l rounded-none" onClick={onSelect} {...props}>
+    <aside
+      className="z-[100] h-[100vh] bg-secondary border-l rounded-none"
+      onClick={onSelect}
+      {...props}
+    >
       <Titlebar />
-      <div className="h-[23px] border-b"></div>
-      <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px-22px)] overflow-auto", className)}>
+
+      <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px)] overflow-auto", className)}>
         <Accordion type="multiple" className="w-full flex flex-col gap-1">
           <FileFolderTree data={filesAndFolders} />
         </Accordion>

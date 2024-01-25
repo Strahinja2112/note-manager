@@ -27,11 +27,7 @@ export const useStore = create<Props>((set, get) => ({
     const oldState = get();
 
     try {
-      const newNote = await window.context.saveNote(
-        `Note${oldState.filesAndFolders.length + 1}`,
-        "Edit this!",
-        true
-      );
+      const newNote = await window.context.saveNote(null, true);
 
       if (newNote) {
         set({
@@ -88,14 +84,16 @@ export const useStore = create<Props>((set, get) => ({
 
     if (!selectedNote) return;
 
+    selectedNote.content = markdown;
+
     try {
-      await window.context.saveNote(selectedNote.title, markdown);
+      await window.context.saveNote(selectedNote);
     } catch (error) {
       console.error(error);
     }
   },
   async onRename(oldTitle: string, newTitle: string) {
-    const { success, content } = await window.context.renameNote(oldTitle, newTitle);
+    const { success, content } = await window.context.renameNote(get().selectedNote, newTitle);
     if (!success) {
       return;
     }

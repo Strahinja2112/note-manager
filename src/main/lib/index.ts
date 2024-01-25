@@ -69,8 +69,7 @@ export async function readNoteData(filePath: string): Promise<string> {
 }
 
 export async function saveNote(
-  title: string,
-  content: string,
+  note: FileData | null,
   create: boolean = false
 ): Promise<FileData | void> {
   const rootDir = getRootDir();
@@ -80,8 +79,8 @@ export async function saveNote(
       type: "file",
       fullPath: "",
       lastEditTime: Date.now(),
-      title,
-      content
+      title: note?.title || "",
+      content: note?.content || ""
     };
 
     const { canceled, filePath } = await dialog.showSaveDialog({
@@ -106,7 +105,7 @@ export async function saveNote(
       newNote.fullPath = filePath || "";
 
       if (filePath) {
-        writeFile(filePath, content, {
+        writeFile(filePath, newNote.content, {
           encoding: fileEncoding
         });
       }
@@ -115,15 +114,15 @@ export async function saveNote(
 
       return newNote;
     }
-  } else {
-    writeFile(`${rootDir}/${title}.md`, content, {
+  } else if (note) {
+    writeFile(note?.fullPath, note?.content, {
       encoding: fileEncoding
     });
   }
 }
 
 export async function renameNote(
-  oldTitle: string,
+  oldNote: FileData | null,
   newTitle: string
 ): Promise<{
   success: boolean;
@@ -131,10 +130,24 @@ export async function renameNote(
 }> {
   const rootDir = getRootDir();
 
-  try {
-    const content = await readNoteData(oldTitle);
+  if (!oldNote) {
+    return {
+      success: false,
+      content: ""
+    };
+  }
 
-    await remove(`${rootDir}/${oldTitle}.md`);
+  try {
+    const content = await readNoteData(oldNote.title);
+
+    await remove(oldNote.fullPath);
+
+    const a = oldNote.fullPath.split("/");
+    a.pop();
+
+    console.log(a);
+
+    let newPath = "";
 
     await writeFile(`${rootDir}/${newTitle}.md`, content, {
       encoding: fileEncoding
