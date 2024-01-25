@@ -1,5 +1,5 @@
 import { appDirectoryName, fileEncoding } from "@shared/constants";
-import { FileData, FileOrFolderData, FileOrFolderDataFull, NoteInfo } from "@shared/types";
+import { FileData, FileOrFolderData, NoteInfo } from "@shared/types";
 import { dialog } from "electron";
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from "fs-extra";
 import { homedir } from "os";
@@ -126,8 +126,6 @@ export async function renameNote(
   success: boolean;
   content: string;
 }> {
-  const rootDir = getRootDir();
-
   if (!oldNote) {
     return {
       success: false,
