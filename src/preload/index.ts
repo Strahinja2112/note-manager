@@ -9,14 +9,28 @@ try {
   const options: WindowContextAPI = {
     locale: navigator.language,
     windowActions: {
-      close: () => ipcRenderer.invoke("closeWindow"),
-      minimize: () => ipcRenderer.invoke("minimizeWindow"),
-      maximize: () => ipcRenderer.invoke("maximizeWindow")
+      close() {
+        ipcRenderer.invoke("closeWindow");
+      },
+      minimize() {
+        ipcRenderer.invoke("minimizeWindow");
+      },
+      maximize() {
+        ipcRenderer.invoke("maximizeWindow");
+      }
     },
-    getNotes: () => ipcRenderer.invoke("getNotes"),
-    readNoteData: (fileName) => ipcRenderer.invoke("readNoteData", fileName),
-    saveNote: (fileName, content) => ipcRenderer.invoke("saveNote", fileName, content),
-    renameNote: (title, newTitle) => ipcRenderer.invoke("renameNote", title, newTitle)
+    getNotes() {
+      return ipcRenderer.invoke("getNotes");
+    },
+    readNoteData(fileName) {
+      return ipcRenderer.invoke("readNoteData", fileName);
+    },
+    saveNote(fileName, content) {
+      return ipcRenderer.invoke("saveNote", fileName, content);
+    },
+    renameNote(title, newTitle) {
+      return ipcRenderer.invoke("renameNote", title, newTitle);
+    }
   };
 
   contextBridge.exposeInMainWorld("context", options);

@@ -26,10 +26,11 @@ export default function App() {
       <Toaster
         toastOptions={{
           style: {
-            background: "rgb(25,25,25)",
-            border: "1px solid hsl(240 3.7% 15.9%)",
+            background: "rgb(11,11,11)",
+            border: "1px solid hsl(240 3.7% 10.9%)",
             color: "white"
-          }
+          },
+          position: "bottom-left"
         }}
       />
       <Editor className="rounded-none relative bg-zinc-900/40">

@@ -1,11 +1,11 @@
-import { INoteInfo } from "@shared/types";
+import { NoteInfo } from "@shared/types";
 import { useEffect, useRef, useState } from "react";
 import { create } from "zustand";
 
-type TNoteInfoFull = INoteInfo & { content: string };
+type TNoteInfoFull = NoteInfo & { content: string };
 
 type Props = {
-  notes: INoteInfo[];
+  notes: NoteInfo[];
   selectedNote: TNoteInfoFull | null;
   setState(state: Partial<Props>): void;
   onCreate(): Promise<void>;
@@ -132,7 +132,10 @@ export function useNotes() {
 
       store.setState({
         notes,
-        selectedNote: { ...notes[0], content }
+        selectedNote: {
+          ...notes[0],
+          content
+        }
       });
     }
 

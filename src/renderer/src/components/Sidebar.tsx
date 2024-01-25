@@ -30,7 +30,7 @@ export default function Sidebar({
           ))}
         </ul>
       </div>
-      <div className="w-full border border-l-0 rounded-br-xl flex p-2 items-center justify-between">
+      <div className="w-full border-t flex p-2 items-center justify-between">
         <Button onClick={onCreate} size="tiny">
           <Plus className="w-5 h-5 text-zinc-300" />
         </Button>

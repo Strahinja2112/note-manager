@@ -1,9 +1,9 @@
 import { getNotes, readNoteData, renameNote, saveNote } from "src/main/lib";
 
-export interface INoteInfo {
+export type NoteInfo = {
   title: string;
   lastEditTime: number;
-}
+};
 
 export type TGetNotes = typeof getNotes;
 export type TReadNoteData = typeof readNoteData;
@@ -22,3 +22,15 @@ export type WindowContextAPI = {
   saveNote: TSaveNote;
   renameNote: TRenameNote;
 };
+
+export type FileAndFolderData =
+  | (NoteInfo & {
+      type: "file";
+      fullPath: string;
+    })
+  | {
+      type: "folder";
+      title: string;
+      fullPath: string;
+      data: FileAndFolderData[];
+    };

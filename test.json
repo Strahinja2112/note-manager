@@ -1,0 +1,56 @@
+[
+  {
+    "type": "file",
+    "title": "Note2",
+    "lastEditTime": 1706050090392.7107
+  },
+  {
+    "type": "file",
+    "title": "Test2",
+    "lastEditTime": 1706195432988.4136
+  },
+  {
+    "type": "folder",
+    "title": "folder",
+    "data": [
+      {
+        "type": "folder",
+        "title": "another_folder",
+        "data": [
+          {
+            "type": "file",
+            "title": "ope",
+            "lastEditTime": 1706196478539.8796
+          }
+        ]
+      },
+      {
+        "type": "file",
+        "title": "open",
+        "lastEditTime": 1706196478539.8796
+      }
+    ]
+  },
+  {
+    "type": "folder",
+    "title": "folder - Copy",
+    "data": [
+      {
+        "type": "folder",
+        "title": "another_folder",
+        "data": [
+          {
+            "type": "file",
+            "title": "ope",
+            "lastEditTime": 1706196478539.8796
+          }
+        ]
+      },
+      {
+        "type": "file",
+        "title": "open",
+        "lastEditTime": 1706196478539.8796
+      }
+    ]
+  }
+]

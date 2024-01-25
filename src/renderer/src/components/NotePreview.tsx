@@ -1,9 +1,9 @@
 import { cn, formatDateFromMs } from "@renderer/utils";
-import type { INoteInfo } from "@shared/types";
+import type { NoteInfo } from "@shared/types";
 import { ComponentProps } from "react";
 
 type Props = {
-  note: INoteInfo;
+  note: NoteInfo;
   isActive?: boolean;
   onNoteSelect(): void;
 };
