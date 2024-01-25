@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
-import { Plus, Trash } from "lucide-react";
+import { Folder, Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
 import NotePreview from "./NotePreview";
 import Titlebar from "./Titlebar";
@@ -25,7 +25,7 @@ export default function Sidebar({
     <aside className="z-[100] h-[100vh] border-l rounded-none" onClick={onSelect} {...props}>
       <Titlebar />
       <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px)] overflow-auto", className)}>
-        <Accordion type="multiple" className="w-full">
+        <Accordion type="multiple" className="w-full p-0">
           {filesAndFolders?.map((fileOrFolder) => {
             if (fileOrFolder.type === "file") {
               return (
@@ -40,7 +40,9 @@ export default function Sidebar({
 
             return (
               <AccordionItem value={fileOrFolder.fullPath}>
-                <AccordionTrigger>{fileOrFolder.title}</AccordionTrigger>
+                <AccordionTrigger>
+                  <span>{fileOrFolder.title}</span>
+                </AccordionTrigger>
                 <AccordionContent>
                   {fileOrFolder.data.map((file) => (
                     <NotePreview

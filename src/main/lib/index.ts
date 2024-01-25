@@ -20,7 +20,7 @@ export async function getNotes(): Promise<FileOrFolderData[]> {
   );
   console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
 
-  return allFilesAndFoldersData;
+  return allFilesAndFoldersData.sort((a) => (a.type === "folder" ? -1 : 1));
 }
 
 async function getNoteInfoRec(data: FileOrFolder[], path: string): Promise<FileOrFolderData[]> {
