@@ -1,7 +1,7 @@
 import { Accordion } from "@/components/ui/accordion";
 import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
-import { ComponentProps } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 import FileFolderTree from "./FileFolderTree";
 import OptionsTab from "./OptionsTab";
 import Titlebar from "./Titlebar";
@@ -15,6 +15,15 @@ export default function Sidebar({
 }) {
   const { filesAndFolders } = useNotes();
 
+  const [cwd, setCwd] = useState("Loading...");
+
+  useEffect(() => {
+    (async () => {
+      const cwd = await window.context.getRootDir();
+      setCwd(cwd);
+    })();
+  }, []);
+
   return (
     <aside
       className="z-[100] h-[100vh] bg-secondary border-l rounded-none"
@@ -22,7 +31,15 @@ export default function Sidebar({
       {...props}
     >
       <Titlebar />
-      <div className={cn("w-[270px] flex-1 h-[calc(100vh-67px)] overflow-auto", className)}>
+      <div className="w-full text-xs border-b h-[23px] flex items-center pl-2 text-muted-foreground">
+        <button
+          onClick={() => window.context.openInShell(cwd)}
+          className="transition max-w-[270px] hover:text-white hover:underline line-clamp-1 overflow-hidden"
+        >
+          {cwd}
+        </button>
+      </div>
+      <div className={cn("w-[270px] flex-1 h-[calc(100vh-90px)] overflow-auto", className)}>
         <Accordion type="multiple" className="w-full flex flex-col gap-1">
           <FileFolderTree data={filesAndFolders} />
         </Accordion>

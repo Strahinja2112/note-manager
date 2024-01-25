@@ -1,4 +1,4 @@
-import { deleteNote, getNotes, readNoteData, renameNote, saveNote } from "src/main/lib";
+import { deleteNote, getNotes, getRootDir, readNoteData, renameNote, saveNote } from "src/main/lib";
 
 export type NoteInfo = {
   title: string;
@@ -18,6 +18,8 @@ export type WindowContextAPI = {
     minimize(): void;
     maximize(): void;
   };
+  getRootDir: () => Promise<string>;
+  openInShell: (path: string) => void;
   getNotes: TGetNotes;
   readNoteData: TReadNoteData;
   saveNote: TSaveNote;

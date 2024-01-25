@@ -1,5 +1,5 @@
 import { WindowContextAPI } from "@shared/types";
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer, shell } from "electron";
 
 if (!process.contextIsolated) {
   throw new Error("contextIsolation must be enabled in the BrowserWindow");
@@ -18,6 +18,12 @@ try {
       maximize() {
         ipcRenderer.invoke("maximizeWindow");
       }
+    },
+    openInShell(path) {
+      return ipcRenderer.invoke("openInShell", path);
+    },
+    getRootDir() {
+      return ipcRenderer.invoke("getRootDir");
     },
     getNotes() {
       return ipcRenderer.invoke("getNotes");

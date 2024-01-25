@@ -2,9 +2,9 @@ import { electronApp, is, optimizer } from "@electron-toolkit/utils";
 import { TDeleteNote, TGetNotes, TReadNoteData, TRenameNote, TSaveNote } from "@shared/types";
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import { join } from "path";
-import { deleteNote, getNotes, readNoteData, renameNote, saveNote } from "./lib";
+import { deleteNote, getNotes, getRootDir, readNoteData, renameNote, saveNote } from "./lib";
 // ! THROWS ERROR
-// import icon from "../../resources/icon.png";
+// import icon from "../../resources/icon.png?asset";
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -74,6 +74,8 @@ function handleNoteEvents() {
   ipcMain.handle("saveNote", (_, ...args: Parameters<TSaveNote>) => saveNote(...args));
   ipcMain.handle("renameNote", (_, ...args: Parameters<TRenameNote>) => renameNote(...args));
   ipcMain.handle("deleteNote", (_, ...args: Parameters<TDeleteNote>) => deleteNote(...args));
+  ipcMain.handle("getRootDir", getRootDir);
+  ipcMain.handle("openInShell", (_, path) => shell.openPath(path + "\\"));
 }
 
 function handleWindowEvents() {
