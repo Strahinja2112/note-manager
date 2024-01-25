@@ -6,11 +6,11 @@ export default function Titlebar({ className }: { className?: string }) {
   return (
     <DraggableTopbar
       className={cn(
-        "dark border-b pl-2 border-b-border  bg-[rgb(11,11,11)] flex justify-between items-center",
+        "dark border-b pl-2 border-b-border bg-[rgb(11,11,11)] flex justify-between items-center",
         className
       )}
     >
-      <span className="text-[15px] text-muted-foreground/50">Note Manager v1.6.3</span>
+      <span className="text-[12px] text-muted-foreground/50">Note Manager v1.6.3</span>
       <div className="flex items-stretch justify-center">
         <Button
           className="text-green-500"

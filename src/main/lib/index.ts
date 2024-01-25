@@ -18,7 +18,7 @@ export async function getNotes(): Promise<FileOrFolderData[]> {
     allFilesAndFolders,
     rootDir
   );
-  console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
+  // console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
 
   return allFilesAndFoldersData.sort((a) => (a.type === "folder" ? -1 : 1));
 }
@@ -110,8 +110,6 @@ export async function saveNote(
         });
       }
 
-      console.log(newNote);
-
       return newNote;
     }
   } else if (note) {
@@ -138,18 +136,18 @@ export async function renameNote(
   }
 
   try {
-    const content = await readNoteData(oldNote.title);
+    const content = await readNoteData(oldNote.fullPath);
 
     await remove(oldNote.fullPath);
 
-    const a = oldNote.fullPath.split("/");
-    a.pop();
+    const oldPathSeparated = oldNote.fullPath.split("\\");
+    oldPathSeparated.pop();
 
-    console.log(a);
+    const newPath = oldPathSeparated.join("\\") + "\\" + newTitle + ".md";
 
-    let newPath = "";
+    console.log(newPath);
 
-    await writeFile(`${rootDir}/${newTitle}.md`, content, {
+    await writeFile(newPath, content, {
       encoding: fileEncoding
     });
 
@@ -207,5 +205,17 @@ async function readAllFilesAndFolders(path: string, extension?: string): Promise
   } catch (error) {
     console.error(error);
     return [];
+  }
+}
+
+export async function deleteNote(note: FileData): Promise<boolean> {
+  console.log(note.fullPath);
+  try {
+    await remove(note.fullPath);
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 }

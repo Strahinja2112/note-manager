@@ -11,7 +11,7 @@ export default function NoteTitle() {
   return (
     <div
       onClick={() => setEditing(false)}
-      className="flex sticky top-0 inset-0 bg-[rgb(11,11,11)] h-[60px] border-b items-center justify-center px-5"
+      className="flex sticky top-0 inset-0 bg-[rgb(11,11,11)] h-[50px] border-b items-center justify-center px-5"
     >
       {editing ? (
         <input

@@ -1,4 +1,10 @@
-import { FileData, FileOrFolderData, FileOrFolderDataFull, NoteInfo } from "@shared/types";
+import {
+  FileData,
+  FileOrFolderData,
+  FileOrFolderDataFull,
+  FolderData,
+  NoteInfo
+} from "@shared/types";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
@@ -6,17 +12,20 @@ import { create } from "zustand";
 type Props = {
   filesAndFolders: FileOrFolderData[];
   selectedNote: FileData | null;
+  selectedFolder: FolderData | null;
   setState(state: Partial<Props>): void;
   onCreate(): Promise<void>;
   onDelete(): Promise<void>;
   onNoteSelect(path: string): Promise<void>;
   onSave(markdown: string): Promise<void>;
   onRename(oldTitle: string, newTitle: string): Promise<void>;
+  fetchData(): Promise<void>;
 };
 
 export const useStore = create<Props>((set, get) => ({
   filesAndFolders: [],
   selectedNote: null,
+  selectedFolder: null,
   setState(state: Partial<Props>) {
     set((prev) => ({
       ...prev,
@@ -41,22 +50,46 @@ export const useStore = create<Props>((set, get) => ({
   },
   async onDelete() {
     const { filesAndFolders, selectedNote } = get();
+
+    if (!selectedNote) {
+      return;
+    }
+
+    const success = await window.context.deleteNote(selectedNote);
+
+    debugger;
+
+    if (!success) {
+      toast.error("Something went wrong!");
+      return;
+    }
+
+    toast.success("Deleted note!");
+
     const newNotes = filesAndFolders.filter((note) => note.title !== selectedNote?.title);
 
-    const newSelected: FileData = {
-      ...newNotes[newNotes.length - 1],
-      lastEditTime: newNotes[newNotes.length - 1].lastEditTime,
-      type: "file",
-      content: ""
-    };
+    if (newNotes[newNotes.length - 1].type == "file") {
+      const newSelected: FileData = {
+        ...newNotes[newNotes.length - 1],
+        lastEditTime: newNotes[newNotes.length - 1].lastEditTime,
+        type: "file",
+        content: ""
+      };
 
-    const content = await window.context.readNoteData(newSelected.title);
+      const content = await window.context.readNoteData(newSelected.title);
 
-    newSelected.content = content;
+      newSelected.content = content;
+
+      set({
+        filesAndFolders: newNotes,
+        selectedNote: newSelected
+      });
+
+      return;
+    }
 
     set({
-      filesAndFolders: newNotes,
-      selectedNote: newSelected
+      filesAndFolders: newNotes
     });
   },
   async onNoteSelect(path: string) {
@@ -111,6 +144,11 @@ export const useStore = create<Props>((set, get) => ({
       title: newTitle
     };
 
+    const oldPathSeparated = selectedNote.fullPath.split("\\");
+    oldPathSeparated.pop();
+
+    selectedNote.fullPath = oldPathSeparated.join("\\") + "\\" + newTitle + ".md";
+
     newNotes.push(selectedNote);
 
     set({
@@ -118,10 +156,16 @@ export const useStore = create<Props>((set, get) => ({
       selectedNote: {
         type: "file",
         content,
-        fullPath: "",
+        fullPath: selectedNote.fullPath,
         title: selectedNote.title,
         lastEditTime: selectedNote.lastEditTime
       }
+    });
+  },
+  async fetchData() {
+    const notes = await window.context.getNotes();
+    set({
+      filesAndFolders: notes
     });
   }
 }));
@@ -131,17 +175,8 @@ export function useNotes() {
   const store = useStore();
 
   useEffect(() => {
-    async function fetchData() {
-      hasCalled.current = true;
-      const notes = await window.context.getNotes();
-
-      store.setState({
-        filesAndFolders: notes
-      });
-    }
-
     if (!hasCalled.current) {
-      fetchData();
+      store.fetchData();
     }
   }, []);
 

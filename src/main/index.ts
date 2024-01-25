@@ -1,8 +1,8 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
-import { TGetNotes, TReadNoteData, TRenameNote, TSaveNote } from "@shared/types";
+import { TDeleteNote, TGetNotes, TReadNoteData, TRenameNote, TSaveNote } from "@shared/types";
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import { join } from "path";
-import { getNotes, readNoteData, renameNote, saveNote } from "./lib";
+import { deleteNote, getNotes, readNoteData, renameNote, saveNote } from "./lib";
 // ! THROWS ERROR
 // import icon from "../../resources/icon.png";
 
@@ -73,6 +73,7 @@ function handleNoteEvents() {
   ipcMain.handle("readNoteData", (_, ...args: Parameters<TReadNoteData>) => readNoteData(...args));
   ipcMain.handle("saveNote", (_, ...args: Parameters<TSaveNote>) => saveNote(...args));
   ipcMain.handle("renameNote", (_, ...args: Parameters<TRenameNote>) => renameNote(...args));
+  ipcMain.handle("deleteNote", (_, ...args: Parameters<TDeleteNote>) => deleteNote(...args));
 }
 
 function handleWindowEvents() {

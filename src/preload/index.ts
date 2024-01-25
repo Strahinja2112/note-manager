@@ -30,6 +30,9 @@ try {
     },
     renameNote(title, newTitle) {
       return ipcRenderer.invoke("renameNote", title, newTitle);
+    },
+    deleteNote(note) {
+      return ipcRenderer.invoke("deleteNote", note);
     }
   };
 

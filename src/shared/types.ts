@@ -1,4 +1,4 @@
-import { getNotes, readNoteData, renameNote, saveNote } from "src/main/lib";
+import { deleteNote, getNotes, readNoteData, renameNote, saveNote } from "src/main/lib";
 
 export type NoteInfo = {
   title: string;
@@ -9,6 +9,7 @@ export type TGetNotes = typeof getNotes;
 export type TReadNoteData = typeof readNoteData;
 export type TSaveNote = typeof saveNote;
 export type TRenameNote = typeof renameNote;
+export type TDeleteNote = typeof deleteNote;
 
 export type WindowContextAPI = {
   locale: string;
@@ -21,6 +22,7 @@ export type WindowContextAPI = {
   readNoteData: TReadNoteData;
   saveNote: TSaveNote;
   renameNote: TRenameNote;
+  deleteNote: TDeleteNote;
 };
 
 export type FileData = NoteInfo & {
