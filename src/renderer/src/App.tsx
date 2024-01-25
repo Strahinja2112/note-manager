@@ -19,7 +19,7 @@ import { useNotes } from "./store/useNotes";
 export default function App() {
   const editorRef = useRef<HTMLDivElement>(null);
 
-  const { selectedNote, notes, onCreate, onSave } = useNotes();
+  const { selectedNote, filesAndFolders: notes, onCreate, onSave } = useNotes();
 
   return (
     <RootLayout>

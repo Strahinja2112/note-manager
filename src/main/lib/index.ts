@@ -1,5 +1,5 @@
 import { appDirectoryName, fileEncoding } from "@shared/constants";
-import { FileAndFolderData, NoteInfo } from "@shared/types";
+import { FileData, FileOrFolderData, FileOrFolderDataFull, NoteInfo } from "@shared/types";
 import { dialog } from "electron";
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from "fs-extra";
 import { homedir } from "os";
@@ -8,36 +8,24 @@ export function getRootDir(): string {
   return `${homedir()}\\${appDirectoryName}`;
 }
 
-export async function getNotes(): Promise<NoteInfo[]> {
-  // const rootDir = getRootDir();
-
-  // await ensureDir(rootDir);
-
-  // const allFilesAndFolders: FileOrFolder[] = await readAllFilesAndFolders(rootDir, ".md");
-  // const allFilesAndFoldersData: FileAndFolderData[] = await getNoteInfoRec(
-  //   allFilesAndFolders,
-  //   rootDir
-  // );
-  // // console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
-
-  // return [];
+export async function getNotes(): Promise<FileOrFolderData[]> {
   const rootDir = getRootDir();
 
   await ensureDir(rootDir);
 
-  const allFiles = await readdir(rootDir, {
-    encoding: fileEncoding,
-    withFileTypes: false
-  });
+  const allFilesAndFolders: FileOrFolder[] = await readAllFilesAndFolders(rootDir, ".md");
+  const allFilesAndFoldersData: FileOrFolderData[] = await getNoteInfoRec(
+    allFilesAndFolders,
+    rootDir
+  );
+  console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
 
-  const allNotes = allFiles.filter((file) => file.endsWith(".md"));
-
-  return Promise.all(allNotes.map((file) => getNoteInfo(`${rootDir}\\${file}`)));
+  return allFilesAndFoldersData;
 }
 
-async function getNoteInfoRec(data: FileOrFolder[], path: string): Promise<FileAndFolderData[]> {
+async function getNoteInfoRec(data: FileOrFolder[], path: string): Promise<FileOrFolderData[]> {
   const result = await Promise.all(
-    data.map(async (element): Promise<FileAndFolderData> => {
+    data.map(async (element): Promise<FileOrFolderData> => {
       if (typeof element === "string") {
         const result = await getNoteInfo(`${path}\\${element}`);
 
@@ -54,6 +42,7 @@ async function getNoteInfoRec(data: FileOrFolder[], path: string): Promise<FileA
         type: "folder",
         title: element.name,
         fullPath: `${path}\\${element.name}`,
+        lastEditTime: 0,
         data: result
       };
     })
@@ -73,9 +62,8 @@ export async function getNoteInfo(filePath: string): Promise<NoteInfo> {
   };
 }
 
-export async function readNoteData(fileName: string): Promise<string> {
-  const rootDir = getRootDir();
-  return readFile(`${rootDir}/${fileName}.md`, {
+export async function readNoteData(filePath: string): Promise<string> {
+  return readFile(filePath, {
     encoding: fileEncoding
   });
 }
@@ -84,15 +72,16 @@ export async function saveNote(
   title: string,
   content: string,
   create: boolean = false
-): Promise<FileAndFolderData | void> {
+): Promise<FileData | void> {
   const rootDir = getRootDir();
 
   if (create) {
-    const newNote: FileAndFolderData = {
+    const newNote: FileData = {
       type: "file",
       fullPath: "",
       lastEditTime: Date.now(),
-      title
+      title,
+      content
     };
 
     const { canceled, filePath } = await dialog.showSaveDialog({
@@ -100,11 +89,10 @@ export async function saveNote(
       defaultPath: `${rootDir}/Unititled.md`,
       buttonLabel: "Create",
       properties: ["showOverwriteConfirmation"],
-      showsTagField: false,
       filters: [
         {
           name: "Markdown",
-          extensions: [".md"]
+          extensions: ["md"]
         }
       ]
     });
@@ -112,16 +100,20 @@ export async function saveNote(
     if (!canceled) {
       const parts = filePath?.split("\\");
       if (parts) {
-        newNote.title = parts[parts.length - 1];
+        newNote.title = parts[parts.length - 1].replace(".md", "");
       }
-    }
 
-    newNote.fullPath = filePath || "";
+      newNote.fullPath = filePath || "";
 
-    if (filePath) {
-      writeFile(filePath, content, {
-        encoding: fileEncoding
-      });
+      if (filePath) {
+        writeFile(filePath, content, {
+          encoding: fileEncoding
+        });
+      }
+
+      console.log(newNote);
+
+      return newNote;
     }
   } else {
     writeFile(`${rootDir}/${title}.md`, content, {

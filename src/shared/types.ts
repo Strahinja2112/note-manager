@@ -23,14 +23,19 @@ export type WindowContextAPI = {
   renameNote: TRenameNote;
 };
 
-export type FileAndFolderData =
-  | (NoteInfo & {
-      type: "file";
-      fullPath: string;
-    })
-  | {
-      type: "folder";
-      title: string;
-      fullPath: string;
-      data: FileAndFolderData[];
-    };
+export type FileData = NoteInfo & {
+  type: "file";
+  fullPath: string;
+  content?: string;
+};
+
+export type FolderData = NoteInfo & {
+  type: "folder";
+  title: string;
+  fullPath: string;
+  data: FileOrFolderData[];
+};
+
+export type FileOrFolderData = FileData | FolderData;
+
+export type FileOrFolderDataFull = FileOrFolderData & { content: string };

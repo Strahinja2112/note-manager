@@ -1,22 +1,21 @@
-import { NoteInfo } from "@shared/types";
+import { FileData, FileOrFolderData, FileOrFolderDataFull, NoteInfo } from "@shared/types";
 import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { create } from "zustand";
 
-type TNoteInfoFull = NoteInfo & { content: string };
-
 type Props = {
-  notes: NoteInfo[];
-  selectedNote: TNoteInfoFull | null;
+  filesAndFolders: FileOrFolderData[];
+  selectedNote: FileData | null;
   setState(state: Partial<Props>): void;
   onCreate(): Promise<void>;
   onDelete(): Promise<void>;
-  onNoteSelect(idx: number): Promise<void>;
+  onNoteSelect(path: string): Promise<void>;
   onSave(markdown: string): Promise<void>;
   onRename(oldTitle: string, newTitle: string): Promise<void>;
 };
 
 export const useStore = create<Props>((set, get) => ({
-  notes: [],
+  filesAndFolders: [],
   selectedNote: null,
   setState(state: Partial<Props>) {
     set((prev) => ({
@@ -27,22 +26,16 @@ export const useStore = create<Props>((set, get) => ({
   async onCreate() {
     const oldState = get();
 
-    const newNote: TNoteInfoFull = {
-      title: `Note${oldState.notes.length + 1}`,
-      lastEditTime: new Date().getTime(),
-      content: "Edit this!"
-    };
-
     try {
-      const _ = await window.context.saveNote(
-        `Note${oldState.notes.length + 1}`,
+      const newNote = await window.context.saveNote(
+        `Note${oldState.filesAndFolders.length + 1}`,
         "Edit this!",
         true
       );
 
       if (newNote) {
         set({
-          notes: [newNote, ...oldState.notes],
+          filesAndFolders: [newNote, ...oldState.filesAndFolders],
           selectedNote: newNote
         });
       }
@@ -51,11 +44,13 @@ export const useStore = create<Props>((set, get) => ({
     }
   },
   async onDelete() {
-    const { notes, selectedNote } = get();
-    const newNotes = notes.filter((note) => note.title !== selectedNote?.title);
+    const { filesAndFolders, selectedNote } = get();
+    const newNotes = filesAndFolders.filter((note) => note.title !== selectedNote?.title);
 
-    const newSelected: TNoteInfoFull = {
+    const newSelected: FileData = {
       ...newNotes[newNotes.length - 1],
+      lastEditTime: newNotes[newNotes.length - 1].lastEditTime,
+      type: "file",
       content: ""
     };
 
@@ -64,26 +59,31 @@ export const useStore = create<Props>((set, get) => ({
     newSelected.content = content;
 
     set({
-      notes: newNotes,
+      filesAndFolders: newNotes,
       selectedNote: newSelected
     });
   },
-  async onNoteSelect(idx: number) {
-    const { notes } = get();
+  async onNoteSelect(path: string) {
+    const { filesAndFolders } = get();
 
-    const newSelected = notes[idx];
+    const newSelected = findByPath(filesAndFolders, path);
 
-    const content = await window.context.readNoteData(newSelected.title);
+    if (!newSelected) {
+      toast.error("NIJE NASO");
+      return;
+    }
+
+    const content = await window.context.readNoteData(newSelected.fullPath);
 
     set({
       selectedNote: {
         ...newSelected,
+        type: "file",
         content
       }
     });
   },
   async onSave(markdown: string) {
-    debugger;
     const { selectedNote } = get();
 
     if (!selectedNote) return;
@@ -101,12 +101,12 @@ export const useStore = create<Props>((set, get) => ({
     }
 
     const oldData = get();
-    const oldNote = oldData.notes.find((note) => note.title === oldTitle);
+    const oldNote = oldData.filesAndFolders.find((note) => note.title === oldTitle);
     if (!oldNote) {
       return;
     }
 
-    const newNotes = oldData.notes.filter((note) => note.title !== oldTitle);
+    const newNotes = oldData.filesAndFolders.filter((note) => note.title !== oldTitle);
 
     const selectedNote = {
       ...oldNote,
@@ -116,9 +116,11 @@ export const useStore = create<Props>((set, get) => ({
     newNotes.push(selectedNote);
 
     set({
-      notes: newNotes,
+      filesAndFolders: newNotes,
       selectedNote: {
+        type: "file",
         content,
+        fullPath: "",
         title: selectedNote.title,
         lastEditTime: selectedNote.lastEditTime
       }
@@ -134,14 +136,9 @@ export function useNotes() {
     async function fetchData() {
       hasCalled.current = true;
       const notes = await window.context.getNotes();
-      const content = await window.context.readNoteData(notes[0].title);
 
       store.setState({
-        notes,
-        selectedNote: {
-          ...notes[0],
-          content
-        }
+        filesAndFolders: notes
       });
     }
 
@@ -151,4 +148,19 @@ export function useNotes() {
   }, []);
 
   return store;
+}
+
+function findByPath(data: FileOrFolderData[], path: string) {
+  for (const item of data) {
+    if (item.type === "file" && item.fullPath === path) {
+      return item;
+    } else if (item.type === "folder") {
+      const foundNote = findByPath(item.data, path);
+      if (foundNote !== null) {
+        return foundNote;
+      }
+    }
+  }
+
+  return null;
 }

@@ -1,3 +1,9 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion";
 import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
 import { Plus, Trash } from "lucide-react";
@@ -13,22 +19,42 @@ export default function Sidebar({
 }: ComponentProps<"aside"> & {
   onSelect(): void;
 }) {
-  const { notes, selectedNote, onCreate, onDelete, onNoteSelect } = useNotes();
+  const { filesAndFolders, selectedNote, onCreate, onDelete, onNoteSelect } = useNotes();
 
   return (
     <aside className="z-[100] h-[100vh] border-l rounded-none" onClick={onSelect} {...props}>
       <Titlebar />
       <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px)] overflow-auto", className)}>
-        <ul className="space-y-1 w-full">
-          {notes?.map((note, idx) => (
-            <NotePreview
-              onNoteSelect={() => onNoteSelect(idx)}
-              key={note.title + note.lastEditTime}
-              isActive={note.title === selectedNote?.title}
-              note={note}
-            />
-          ))}
-        </ul>
+        <Accordion type="multiple" className="w-full">
+          {filesAndFolders?.map((fileOrFolder) => {
+            if (fileOrFolder.type === "file") {
+              return (
+                <NotePreview
+                  onNoteSelect={() => onNoteSelect(fileOrFolder.fullPath)}
+                  key={fileOrFolder.title + fileOrFolder.lastEditTime}
+                  isActive={fileOrFolder.title === selectedNote?.title}
+                  note={fileOrFolder}
+                />
+              );
+            }
+
+            return (
+              <AccordionItem value={fileOrFolder.fullPath}>
+                <AccordionTrigger>{fileOrFolder.title}</AccordionTrigger>
+                <AccordionContent>
+                  {fileOrFolder.data.map((file) => (
+                    <NotePreview
+                      onNoteSelect={() => onNoteSelect(file.fullPath)}
+                      key={file.title + file.lastEditTime}
+                      isActive={file.title === selectedNote?.title}
+                      note={file}
+                    />
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
       </div>
       <div className="w-full border-t flex p-2 items-center justify-between">
         <Button onClick={onCreate} size="tiny">
