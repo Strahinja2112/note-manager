@@ -1,4 +1,4 @@
-import { deleteNote, getNotes, getRootDir, readNoteData, renameNote, saveNote } from "src/main/lib";
+import { deleteNote, getNotes, readNoteData, renameNote, saveNote } from "src/main/lib";
 
 export type NoteInfo = {
   title: string;

@@ -1,5 +1,5 @@
 import { WindowContextAPI } from "@shared/types";
-import { contextBridge, ipcRenderer, shell } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 
 if (!process.contextIsolated) {
   throw new Error("contextIsolation must be enabled in the BrowserWindow");
