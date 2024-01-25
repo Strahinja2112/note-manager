@@ -19,9 +19,10 @@ export default function Sidebar({
   return (
     <aside className="z-[100] h-[100vh] border-l rounded-none" onClick={onSelect} {...props}>
       <Titlebar />
-      <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px)] overflow-auto", className)}>
+      <div className="h-[23px] border-b"></div>
+      <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px-22px)] overflow-auto", className)}>
         <Accordion type="multiple" className="w-full flex flex-col gap-1">
-          <FileFolderTree data={filesAndFolders} level={0} />
+          <FileFolderTree data={filesAndFolders} />
         </Accordion>
       </div>
       <div className="w-full border-t flex p-2 items-center justify-between">

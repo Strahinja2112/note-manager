@@ -8,17 +8,25 @@ const Accordion = AccordionPrimitive.Root;
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={className} {...props} />
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> & {
+    level: number;
+  }
+>(({ className, level, children, ...props }, ref) => (
+  <AccordionPrimitive.Item ref={ref} className={cn("relative", className)} {...props}>
+    {/* <div
+      style={{
+        left: level * 10 + "px"
+      }}
+      className="absolute translate-x-1.5 translate-y-[25px] top-0 h-full bg-muted-foreground/30 w-[1px]"
+    /> */}
+    {children}
+  </AccordionPrimitive.Item>
 ));
 AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
-    // onClose(): void;
-  }
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => {
   const [isOpen, setIsOpen] = React.useState(false);
 

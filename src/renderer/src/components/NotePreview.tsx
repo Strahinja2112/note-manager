@@ -27,15 +27,15 @@ export default function NotePreview({
         className
       )}
       style={{
-        paddingLeft: level * 15 + "px"
+        paddingLeft: level > 0 ? level * 10 + 16 + "px" : "16px"
       }}
       {...props}
     >
       <div className="flex items-center justify-center gap-2">
         <FileArchive className="h-3.5 w-3.5 shrink-0 transition duration-200" />
-        <h3 className="text-sm truncate">{note.title}.md</h3>
+        <h3 className="text-sm line-clamp-1">{note.title}.md</h3>
       </div>
-      <span className="inline-block text-[#b5b5b5] text-[10px]">
+      <span className="inline-block text-[#b5b5b5] text-end min-w-[40%] text-[10px]">
         {formatDateFromMs(note.lastEditTime)}
       </span>
     </li>

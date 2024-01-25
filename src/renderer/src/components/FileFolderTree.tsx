@@ -14,10 +14,10 @@ import Titlebar from "./Titlebar";
 import { Button } from "./ui/button";
 type Props = {
   data: FileOrFolderData[];
-  level: number;
+  level?: number;
 };
 
-export default function FileFolderTree({ data, level }: Props) {
+export default function FileFolderTree({ data, level = 0 }: Props) {
   const { selectedNote, onNoteSelect } = useNotes();
 
   return (
@@ -26,7 +26,7 @@ export default function FileFolderTree({ data, level }: Props) {
         if (fileOrFolder.type === "file") {
           return (
             <NotePreview
-              level={level + 1}
+              level={level}
               onNoteSelect={() => onNoteSelect(fileOrFolder.fullPath)}
               key={fileOrFolder.title + fileOrFolder.lastEditTime}
               isActive={fileOrFolder.title === selectedNote?.title}
@@ -36,13 +36,13 @@ export default function FileFolderTree({ data, level }: Props) {
         }
 
         return (
-          <AccordionItem
-            value={fileOrFolder.fullPath}
-            style={{
-              paddingLeft: level * 10 + "px"
-            }}
-          >
-            <AccordionTrigger className="px-1">
+          <AccordionItem value={fileOrFolder.fullPath} level={level}>
+            <AccordionTrigger
+              className="px-1"
+              style={{
+                paddingLeft: level * 10 + "px"
+              }}
+            >
               <span>{fileOrFolder.title}</span>
             </AccordionTrigger>
             <AccordionContent>
