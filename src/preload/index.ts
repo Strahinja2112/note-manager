@@ -25,8 +25,8 @@ try {
     readNoteData(fileName) {
       return ipcRenderer.invoke("readNoteData", fileName);
     },
-    saveNote(fileName, content) {
-      return ipcRenderer.invoke("saveNote", fileName, content);
+    saveNote(fileName, content, create) {
+      return ipcRenderer.invoke("saveNote", fileName, content, create);
     },
     renameNote(title, newTitle) {
       return ipcRenderer.invoke("renameNote", title, newTitle);

@@ -34,12 +34,18 @@ export const useStore = create<Props>((set, get) => ({
     };
 
     try {
-      await window.context.saveNote(newNote.title, newNote.content);
+      const _ = await window.context.saveNote(
+        `Note${oldState.notes.length + 1}`,
+        "Edit this!",
+        true
+      );
 
-      set({
-        notes: [newNote, ...oldState.notes],
-        selectedNote: newNote
-      });
+      if (newNote) {
+        set({
+          notes: [newNote, ...oldState.notes],
+          selectedNote: newNote
+        });
+      }
     } catch (error) {
       console.error(error);
     }

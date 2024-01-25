@@ -1,5 +1,6 @@
 import { appDirectoryName, fileEncoding } from "@shared/constants";
 import { FileAndFolderData, NoteInfo } from "@shared/types";
+import { dialog } from "electron";
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from "fs-extra";
 import { homedir } from "os";
 
@@ -8,24 +9,35 @@ export function getRootDir(): string {
 }
 
 export async function getNotes(): Promise<NoteInfo[]> {
+  // const rootDir = getRootDir();
+
+  // await ensureDir(rootDir);
+
+  // const allFilesAndFolders: FileOrFolder[] = await readAllFilesAndFolders(rootDir, ".md");
+  // const allFilesAndFoldersData: FileAndFolderData[] = await getNoteInfoRec(
+  //   allFilesAndFolders,
+  //   rootDir
+  // );
+  // // console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
+
+  // return [];
   const rootDir = getRootDir();
 
   await ensureDir(rootDir);
 
-  const allFilesAndFolders: FileOrFolder[] = await readAllFilesAndFolders(rootDir, ".md");
-  const allFilesAndFoldersData: FileAndFolderData[] = await getNoteInfoRec(
-    allFilesAndFolders,
-    rootDir
-  );
-  console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
+  const allFiles = await readdir(rootDir, {
+    encoding: fileEncoding,
+    withFileTypes: false
+  });
 
-  return [];
+  const allNotes = allFiles.filter((file) => file.endsWith(".md"));
+
+  return Promise.all(allNotes.map((file) => getNoteInfo(`${rootDir}\\${file}`)));
 }
 
 async function getNoteInfoRec(data: FileOrFolder[], path: string): Promise<FileAndFolderData[]> {
   const result = await Promise.all(
     data.map(async (element): Promise<FileAndFolderData> => {
-      console.log(path);
       if (typeof element === "string") {
         const result = await getNoteInfo(`${path}\\${element}`);
 
@@ -68,12 +80,54 @@ export async function readNoteData(fileName: string): Promise<string> {
   });
 }
 
-export async function saveNote(title: string, content: string): Promise<void> {
+export async function saveNote(
+  title: string,
+  content: string,
+  create: boolean = false
+): Promise<FileAndFolderData | void> {
   const rootDir = getRootDir();
 
-  return writeFile(`${rootDir}/${title}.md`, content, {
-    encoding: fileEncoding
-  });
+  if (create) {
+    const newNote: FileAndFolderData = {
+      type: "file",
+      fullPath: "",
+      lastEditTime: Date.now(),
+      title
+    };
+
+    const { canceled, filePath } = await dialog.showSaveDialog({
+      title: "New note!",
+      defaultPath: `${rootDir}/Unititled.md`,
+      buttonLabel: "Create",
+      properties: ["showOverwriteConfirmation"],
+      showsTagField: false,
+      filters: [
+        {
+          name: "Markdown",
+          extensions: [".md"]
+        }
+      ]
+    });
+
+    if (!canceled) {
+      const parts = filePath?.split("\\");
+      if (parts) {
+        newNote.title = parts[parts.length - 1];
+      }
+    }
+
+    newNote.fullPath = filePath || "";
+
+    if (filePath) {
+      writeFile(filePath, content, {
+        encoding: fileEncoding
+      });
+    }
+  } else {
+    writeFile(`${rootDir}/${title}.md`, content, {
+      encoding: fileEncoding
+    });
+  }
 }
 
 export async function renameNote(
