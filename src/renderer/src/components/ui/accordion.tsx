@@ -10,38 +10,38 @@ const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
 >(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={cn("border-b", className)} {...props} />
+  <AccordionPrimitive.Item ref={ref} className={className} {...props} />
 ));
 AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
-    onClose(): void;
+    // onClose(): void;
   }
 >(({ className, children, ...props }, ref) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header className="flex duration-500">
       <AccordionPrimitive.Trigger
         ref={ref}
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "flex flex-1 items-center text-muted-foreground gap-2 py-1 font-medium transition-all duration-700",
+          "flex flex-1 items-center text-muted-foreground gap-2 py-1 transition-all text-sm",
           className
         )}
         {...props}
       >
         <ChevronDown
           className={cn(
-            "h-4 w-4 shrink-0 transition-transform duration-200 -rotate-90",
+            "h-3.5 w-3.5 shrink-0 transition-transform duration-200 -rotate-90",
             isOpen && "rotate-0"
           )}
         />
         <Folder
           fill={isOpen ? "hsl(240 5% 64.9%)" : ""}
-          className="h-4 w-4 -ml-1.5 shrink-0 transition duration-200"
+          className="h-3.5 w-3.5 -ml-1.5 shrink-0 transition duration-200"
         />
         {children}
       </AccordionPrimitive.Trigger>
@@ -59,7 +59,7 @@ const AccordionContent = React.forwardRef<
     className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("pb-4 pt-0", className)}>{children}</div>
+    <div className={cn("pt-0", className)}>{children}</div>
   </AccordionPrimitive.Content>
 ));
 

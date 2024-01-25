@@ -1,14 +1,9 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
-import { Folder, Plus, Trash } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import { ComponentProps } from "react";
-import NotePreview from "./NotePreview";
+import FileFolderTree from "./FileFolderTree";
 import Titlebar from "./Titlebar";
 import { Button } from "./ui/button";
 
@@ -19,43 +14,14 @@ export default function Sidebar({
 }: ComponentProps<"aside"> & {
   onSelect(): void;
 }) {
-  const { filesAndFolders, selectedNote, onCreate, onDelete, onNoteSelect } = useNotes();
+  const { filesAndFolders, onCreate, onDelete } = useNotes();
 
   return (
     <aside className="z-[100] h-[100vh] border-l rounded-none" onClick={onSelect} {...props}>
       <Titlebar />
       <div className={cn("w-[270px] flex-1 h-[calc(100vh-80px)] overflow-auto", className)}>
-        <Accordion type="multiple" className="w-full p-0">
-          {filesAndFolders?.map((fileOrFolder) => {
-            if (fileOrFolder.type === "file") {
-              return (
-                <NotePreview
-                  onNoteSelect={() => onNoteSelect(fileOrFolder.fullPath)}
-                  key={fileOrFolder.title + fileOrFolder.lastEditTime}
-                  isActive={fileOrFolder.title === selectedNote?.title}
-                  note={fileOrFolder}
-                />
-              );
-            }
-
-            return (
-              <AccordionItem value={fileOrFolder.fullPath}>
-                <AccordionTrigger>
-                  <span>{fileOrFolder.title}</span>
-                </AccordionTrigger>
-                <AccordionContent>
-                  {fileOrFolder.data.map((file) => (
-                    <NotePreview
-                      onNoteSelect={() => onNoteSelect(file.fullPath)}
-                      key={file.title + file.lastEditTime}
-                      isActive={file.title === selectedNote?.title}
-                      note={file}
-                    />
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-            );
-          })}
+        <Accordion type="multiple" className="w-full flex flex-col gap-1">
+          <FileFolderTree data={filesAndFolders} level={0} />
         </Accordion>
       </div>
       <div className="w-full border-t flex p-2 items-center justify-between">

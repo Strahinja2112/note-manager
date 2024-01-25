@@ -92,7 +92,6 @@ export default function App() {
               behavior: "smooth"
             });
           }}
-          className="px-2"
         />
       ) : null}
     </RootLayout>
