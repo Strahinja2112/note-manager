@@ -36,7 +36,12 @@ export const useStore = create<Props>((set, get) => ({
     const oldState = get();
 
     try {
-      const newNote = await window.context.saveNote(null, true);
+      const newNote = await window.context.saveNote(
+        {
+          parent: get().selectedFolder?.fullPath
+        },
+        true
+      );
 
       if (newNote) {
         set({

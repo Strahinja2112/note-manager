@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion";
+import { createId } from "@paralleldrive/cuid2";
 import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
 import { FileOrFolderData } from "@shared/types";
@@ -14,11 +15,14 @@ import Titlebar from "./Titlebar";
 import { Button } from "./ui/button";
 type Props = {
   data: FileOrFolderData[];
+  folderPath: string;
   level?: number;
 };
 
 export default function FileFolderTree({ data, level = 0 }: Props) {
-  const { selectedNote, onNoteSelect } = useNotes();
+  const { selectedNote, onNoteSelect, setState, selectedFolder } = useNotes();
+
+  console.log(selectedFolder);
 
   return (
     <div>
@@ -36,9 +40,25 @@ export default function FileFolderTree({ data, level = 0 }: Props) {
         }
 
         return (
-          <AccordionItem value={fileOrFolder.fullPath} level={level}>
+          <AccordionItem
+            value={fileOrFolder.fullPath}
+            key={fileOrFolder.title + fileOrFolder.lastEditTime}
+            level={level}
+            onClick={(e) => {
+              e.stopPropagation();
+              setState({
+                selectedFolder: fileOrFolder,
+                selectedNote: null
+              });
+            }}
+          >
             <AccordionTrigger
-              className="px-1"
+              className={cn(
+                "px-1",
+                fileOrFolder.fullPath === selectedFolder?.fullPath &&
+                  !selectedNote &&
+                  "bg-zinc-900/50"
+              )}
               style={{
                 paddingLeft: level * 10 + "px"
               }}
@@ -46,7 +66,11 @@ export default function FileFolderTree({ data, level = 0 }: Props) {
               <span>{fileOrFolder.title}</span>
             </AccordionTrigger>
             <AccordionContent>
-              <FileFolderTree data={fileOrFolder.data} level={level + 1} />
+              <FileFolderTree
+                data={fileOrFolder.data}
+                level={level + 1}
+                folderPath={fileOrFolder.fullPath}
+              />
             </AccordionContent>
           </AccordionItem>
         );

@@ -13,7 +13,7 @@ export default function Sidebar({
 }: ComponentProps<"aside"> & {
   onSelect(): void;
 }) {
-  const { filesAndFolders } = useNotes();
+  const { filesAndFolders, setState } = useNotes();
 
   const [cwd, setCwd] = useState("Loading...");
 
@@ -27,7 +27,13 @@ export default function Sidebar({
   return (
     <aside
       className="z-[100] h-[100vh] bg-secondary border-l rounded-none"
-      onClick={onSelect}
+      onClick={() => {
+        onSelect();
+        setState({
+          selectedFolder: null,
+          selectedNote: null
+        });
+      }}
       {...props}
     >
       <Titlebar />
@@ -41,7 +47,7 @@ export default function Sidebar({
       </div>
       <div className={cn("w-[270px] flex-1 h-[calc(100vh-90px)] overflow-auto", className)}>
         <Accordion type="multiple" className="w-full flex flex-col gap-1">
-          <FileFolderTree data={filesAndFolders} />
+          <FileFolderTree data={filesAndFolders} folderPath="" />
         </Accordion>
       </div>
       <OptionsTab />

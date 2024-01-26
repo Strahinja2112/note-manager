@@ -20,7 +20,11 @@ export default function NotePreview({
 }: ComponentProps<"li"> & Props) {
   return (
     <li
-      onClick={() => onNoteSelect()}
+      onClick={(e) => {
+        e.stopPropagation();
+
+        onNoteSelect();
+      }}
       className={cn(
         "w-full transition cursor-pointer p-1 px-2 gap-1 flex justify-between items-center",
         isActive && "bg-zinc-900/50",

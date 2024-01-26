@@ -10,7 +10,10 @@ export default function OptionsTab({}: Props) {
   const { selectedNote, onCreate, onDelete, fetchData } = useNotes();
 
   return (
-    <div className="w-full h-[35px] border-t flex items-center justify-between px-1">
+    <div
+      className="w-full h-[35px] border-t flex items-center justify-between px-1"
+      onClick={(e) => e.stopPropagation()}
+    >
       <div className="flex items-center justify-center gap-1">
         <Popover>
           <PopoverTrigger asChild>
