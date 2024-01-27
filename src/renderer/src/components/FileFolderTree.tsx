@@ -37,6 +37,7 @@ export default function FileFolderTree({ data, level = 0 }: Props) {
           );
         }
 
+        const sortedData = fileOrFolder.data.sort((a) => (a.type == "folder" ? -1 : 1));
         return (
           <AccordionItem
             value={fileOrFolder.fullPath}
@@ -63,7 +64,7 @@ export default function FileFolderTree({ data, level = 0 }: Props) {
             </AccordionTrigger>
             <AccordionContent>
               <FileFolderTree
-                data={fileOrFolder.data}
+                data={sortedData}
                 level={level + 1}
                 folderPath={fileOrFolder.fullPath}
               />
