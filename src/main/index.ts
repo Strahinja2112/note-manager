@@ -1,10 +1,8 @@
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
 import { TDeleteNote, TGetNotes, TReadNoteData, TRenameNote, TSaveNote } from "@shared/types";
 import { BrowserWindow, app, ipcMain, shell } from "electron";
-import { join } from "path";
+import path, { join } from "path";
 import { deleteNote, getNotes, getRootDir, readNoteData, renameNote, saveNote } from "./lib";
-// ! THROWS ERROR
-// import icon from "../../resources/icon.png?asset";
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -16,7 +14,7 @@ function createWindow(): void {
     minHeight: 600,
     show: false,
     autoHideMenuBar: true,
-    // ...(process.platform === "linux" ? { icon } : {}),
+    icon: path.join(__dirname, "../../resources/icon.ico"),
     center: true,
     title: "Note Manager",
     transparent: true,
