@@ -6,7 +6,7 @@ import {
   quotePlugin
 } from "@mdxeditor/editor";
 
-import { FileText, PencilIcon, Plus, StickyNoteIcon } from "lucide-react";
+import { FileCode2, FileText, PencilIcon, Plus } from "lucide-react";
 import { useRef } from "react";
 import { Toaster } from "react-hot-toast";
 import Editor from "./components/Editor";
@@ -70,7 +70,7 @@ export default function App() {
           </>
         ) : (
           <div className="flex flex-col items-center h-full justify-center space-y-4">
-            <StickyNoteIcon className="h-12 w-12 text-zinc-200" />
+            <FileCode2 className="h-12 w-12 text-zinc-200" />
             <h2 className="text-2xl font-semibold text-zinc-200">No notes selected</h2>
             <p className="text-zinc-500 dark:text-zinc-400">
               Please select a note from the list or{" "}
