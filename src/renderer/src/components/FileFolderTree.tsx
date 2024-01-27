@@ -1,18 +1,8 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@/components/ui/accordion";
-import { createId } from "@paralleldrive/cuid2";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useNotes } from "@renderer/store/useNotes";
 import { cn } from "@renderer/utils";
 import { FileOrFolderData } from "@shared/types";
-import { Folder, Plus, Trash } from "lucide-react";
-import React, { ComponentProps } from "react";
 import NotePreview from "./NotePreview";
-import Titlebar from "./Titlebar";
-import { Button } from "./ui/button";
 type Props = {
   data: FileOrFolderData[];
   folderPath: string;
