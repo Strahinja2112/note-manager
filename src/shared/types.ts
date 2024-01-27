@@ -5,6 +5,8 @@ export type NoteInfo = {
   lastEditTime: number;
 };
 
+export type PossibleLocations = "main" | "settings";
+
 export type TGetNotes = typeof getNotes;
 export type TReadNoteData = typeof readNoteData;
 export type TSaveNote = typeof saveNote;

@@ -1,5 +1,5 @@
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { useNotes } from "@renderer/store/useNotes";
+import { useNotes } from "@renderer/hooks/useNotes";
 import { cn } from "@renderer/utils";
 import { FileOrFolderData } from "@shared/types";
 import NotePreview from "./NotePreview";

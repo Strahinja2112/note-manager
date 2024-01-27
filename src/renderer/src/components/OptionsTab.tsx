@@ -1,14 +1,5 @@
-import { useNotes } from "@renderer/store/useNotes";
-import {
-  FileIcon,
-  FilePlus,
-  FolderIcon,
-  FolderPlus,
-  PlusIcon,
-  RotateCcw,
-  Settings,
-  Trash
-} from "lucide-react";
+import { useNotes } from "@renderer/hooks/useNotes";
+import { FilePlus, FolderPlus, PlusIcon, RotateCcw, Settings, Trash } from "lucide-react";
 import { Button } from "./ui/button";
 
 import {
@@ -17,12 +8,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useLocation } from "@renderer/hooks/useLocation";
 
 type Props = {};
 
 export default function OptionsTab({}: Props) {
   const { selectedNote, onCreate, onDelete, fetchData } = useNotes();
+  const { setLocation } = useLocation();
 
   return (
     <div
@@ -53,7 +45,7 @@ export default function OptionsTab({}: Props) {
       </div>
       <span className="text-white/80">Options</span>
       <div className="flex items-center justify-center gap-1">
-        <Button size="mini">
+        <Button size="mini" onClick={() => setLocation("settings")}>
           <Settings className="w-4 h-4" />
         </Button>
         <Button size="mini" onClick={fetchData}>

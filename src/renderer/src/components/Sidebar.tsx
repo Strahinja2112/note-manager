@@ -1,5 +1,5 @@
 import { Accordion } from "@/components/ui/accordion";
-import { useNotes } from "@renderer/store/useNotes";
+import { useNotes } from "@renderer/hooks/useNotes";
 import { cn } from "@renderer/utils";
 import { ComponentProps, useEffect, useState } from "react";
 import FileFolderTree from "./FileFolderTree";

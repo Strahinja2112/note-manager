@@ -1,4 +1,4 @@
-import { useNotes } from "@renderer/store/useNotes";
+import { useNotes } from "@renderer/hooks/useNotes";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
