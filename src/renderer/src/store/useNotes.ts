@@ -62,8 +62,6 @@ export const useStore = create<Props>((set, get) => ({
 
     const success = await window.context.deleteNote(selectedNote);
 
-    debugger;
-
     if (!success) {
       toast.error("Something went wrong!");
       return;
@@ -72,6 +70,14 @@ export const useStore = create<Props>((set, get) => ({
     toast.success("Deleted note!");
 
     const newNotes = filesAndFolders.filter((note) => note.title !== selectedNote?.title);
+
+    if (newNotes.length === 0) {
+      set({
+        filesAndFolders: []
+      });
+
+      return;
+    }
 
     if (newNotes[newNotes.length - 1].type == "file") {
       const newSelected: FileData = {

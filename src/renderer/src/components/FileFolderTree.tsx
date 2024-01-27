@@ -22,8 +22,6 @@ type Props = {
 export default function FileFolderTree({ data, level = 0 }: Props) {
   const { selectedNote, onNoteSelect, setState, selectedFolder } = useNotes();
 
-  console.log(selectedFolder);
-
   return (
     <div>
       {data?.map((fileOrFolder) => {
@@ -47,17 +45,15 @@ export default function FileFolderTree({ data, level = 0 }: Props) {
             onClick={(e) => {
               e.stopPropagation();
               setState({
-                selectedFolder: fileOrFolder,
-                selectedNote: null
+                selectedFolder: fileOrFolder
+                // selectedNote: null
               });
             }}
           >
             <AccordionTrigger
               className={cn(
                 "px-1",
-                fileOrFolder.fullPath === selectedFolder?.fullPath &&
-                  !selectedNote &&
-                  "bg-zinc-900/50"
+                fileOrFolder.fullPath === selectedFolder?.fullPath && "bg-zinc-900/50"
               )}
               style={{
                 paddingLeft: level * 10 + "px"

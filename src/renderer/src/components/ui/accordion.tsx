@@ -1,5 +1,5 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDown, File, Folder } from "lucide-react";
+import { ChevronDown, Folder, FolderOpen } from "lucide-react";
 import * as React from "react";
 
 import { cn } from "@renderer/utils";
@@ -47,10 +47,11 @@ const AccordionTrigger = React.forwardRef<
             isOpen && "rotate-0"
           )}
         />
-        <Folder
-          fill={isOpen ? "hsl(240 5% 64.9%)" : ""}
-          className="h-3.5 w-3.5 -ml-1.5 shrink-0 transition duration-200"
-        />
+        {isOpen ? (
+          <FolderOpen className="h-3.5 w-3.5 -ml-1.5 shrink-0 transition duration-200" />
+        ) : (
+          <Folder className="h-3.5 w-3.5 -ml-1.5 shrink-0 transition duration-200" />
+        )}
         {children}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>

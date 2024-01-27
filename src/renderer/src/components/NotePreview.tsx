@@ -1,6 +1,6 @@
 import { cn, formatDateFromMs } from "@renderer/utils";
 import type { NoteInfo } from "@shared/types";
-import { File, FileArchive } from "lucide-react";
+import { FileCode2 } from "lucide-react";
 import { ComponentProps } from "react";
 
 type Props = {
@@ -35,8 +35,8 @@ export default function NotePreview({
       }}
       {...props}
     >
-      <div className="flex items-center justify-center gap-2">
-        <FileArchive className="h-3.5 w-3.5 shrink-0 transition duration-200" />
+      <div className="flex items-centerjustify-center gap-2">
+        <FileCode2 className="h-3.5 w-3.5 translate-y-0.5 shrink-0 transition duration-200" />
         <h3 className="text-sm line-clamp-1">{note.title}.md</h3>
       </div>
       <span className="inline-block text-[#b5b5b5] text-end min-w-[40%] text-[10px]">

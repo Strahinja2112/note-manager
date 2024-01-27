@@ -1,5 +1,14 @@
 import { useNotes } from "@renderer/store/useNotes";
-import { FileIcon, FolderIcon, PlusIcon, RotateCcw, Settings, Trash } from "lucide-react";
+import {
+  FileIcon,
+  FilePlus,
+  FolderIcon,
+  FolderPlus,
+  PlusIcon,
+  RotateCcw,
+  Settings,
+  Trash
+} from "lucide-react";
 import { Button } from "./ui/button";
 
 import {
@@ -29,11 +38,11 @@ export default function OptionsTab({}: Props) {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-[120px] z-[100] bg-secondary">
             <DropdownMenuItem onClick={onCreate}>
-              <FileIcon className="h-4 w-4 mr-2" />
+              <FilePlus className="h-4 w-4 mr-2" />
               New File
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <FolderIcon className="h-4 w-4 mr-2" />
+              <FolderPlus className="h-4 w-4 mr-2" />
               New Folder
             </DropdownMenuItem>
           </DropdownMenuContent>

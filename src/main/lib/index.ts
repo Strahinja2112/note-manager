@@ -1,4 +1,4 @@
-import { appDirectoryName, fileEncoding } from "@shared/constants";
+import { appDirectoryName, fileEncoding, startingNoteData } from "@shared/constants";
 import { FileData, FileOrFolderData, NoteInfo } from "@shared/types";
 import { dialog } from "electron";
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from "fs-extra";
@@ -48,6 +48,17 @@ async function readAllFilesAndFolders(path: string, extension?: string): Promise
   }
 }
 
+async function getNoteInfo(filePath: string): Promise<NoteInfo> {
+  const fileStats = await stat(filePath);
+
+  const filePathParts = filePath.split("\\");
+
+  return {
+    title: filePathParts[filePathParts.length - 1].replace(/\.md$/, ""),
+    lastEditTime: fileStats.mtimeMs
+  };
+}
+
 async function getNoteInfoRec(data: FileOrFolder[], path: string): Promise<FileOrFolderData[]> {
   const result = await Promise.all(
     data.map(async (element): Promise<FileOrFolderData> => {
@@ -90,20 +101,8 @@ export async function getNotes(): Promise<FileOrFolderData[]> {
     allFilesAndFolders,
     rootDir
   );
-  // console.log(JSON.stringify(allFilesAndFoldersData, null, 2));
 
   return allFilesAndFoldersData.sort((a) => (a.type === "folder" ? -1 : 1));
-}
-
-export async function getNoteInfo(filePath: string): Promise<NoteInfo> {
-  const fileStats = await stat(filePath);
-
-  const filePathParts = filePath.split("\\");
-
-  return {
-    title: filePathParts[filePathParts.length - 1].replace(/\.md$/, ""),
-    lastEditTime: fileStats.mtimeMs
-  };
 }
 
 export async function readNoteData(filePath: string): Promise<string> {
@@ -128,7 +127,7 @@ export async function saveNote(
       fullPath: "",
       lastEditTime: Date.now(),
       title: note?.title || "",
-      content: note?.content || ""
+      content: note?.content || startingNoteData
     };
 
     const { canceled, filePath } = await dialog.showSaveDialog({
@@ -160,8 +159,8 @@ export async function saveNote(
 
       return newNote;
     }
-  } else if (note) {
-    writeFile(note?.fullPath, note?.content, {
+  } else if (note && note.fullPath) {
+    writeFile(note.fullPath, note.content, {
       encoding: fileEncoding
     });
   }
@@ -191,8 +190,6 @@ export async function renameNote(
 
     const newPath = oldPathSeparated.join("\\") + "\\" + newTitle + ".md";
 
-    console.log(newPath);
-
     await writeFile(newPath, content, {
       encoding: fileEncoding
     });
@@ -211,7 +208,6 @@ export async function renameNote(
 }
 
 export async function deleteNote(note: FileData): Promise<boolean> {
-  console.log(note.fullPath);
   try {
     await remove(note.fullPath);
 
