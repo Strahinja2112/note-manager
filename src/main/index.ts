@@ -44,7 +44,7 @@ function createWindow(): void {
   }
 }
 
-app.whenReady().then(() => {
+app.whenReady().then((): void => {
   electronApp.setAppUserModelId("com.electron");
 
   app.on("browser-window-created", (_, window) => {
@@ -55,18 +55,18 @@ app.whenReady().then(() => {
   handleWindowEvents();
   createWindow();
 
-  app.on("activate", () => {
+  app.on("activate", (): void => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
-app.on("window-all-closed", () => {
+app.on("window-all-closed", (): void => {
   if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-function handleNoteEvents() {
+function handleNoteEvents(): void {
   ipcMain.handle("getNotes", (_, ...args: Parameters<TGetNotes>) => getNotes(...args));
   ipcMain.handle("readNoteData", (_, ...args: Parameters<TReadNoteData>) => readNoteData(...args));
   ipcMain.handle("saveNote", (_, ...args: Parameters<TSaveNote>) => saveNote(...args));
@@ -76,7 +76,7 @@ function handleNoteEvents() {
   ipcMain.handle("openInShell", (_, path) => shell.openPath(path + "\\"));
 }
 
-function handleWindowEvents() {
+function handleWindowEvents(): void {
   ipcMain.handle("closeWindow", () => app.quit());
   ipcMain.handle("minimizeWindow", () => mainWindow?.minimize());
   ipcMain.handle("maximizeWindow", () => {
@@ -86,4 +86,14 @@ function handleWindowEvents() {
       mainWindow?.maximize();
     }
   });
+}
+
+function getWindowData() {
+  function closeWindow() {}
+
+  return {
+    actions: {
+      closeWindow
+    }
+  };
 }

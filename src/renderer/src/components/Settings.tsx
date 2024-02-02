@@ -52,7 +52,7 @@ export default function Settings({}: Props) {
                 <link.icon className="text-muted-foreground" />
                 <div className="flex flex-col">
                   <h2 className="text-xl">{link.title}</h2>
-                  {!link.hidden ? <p className="text-zinc-600">{link.href}</p> : null}
+                  {link.hidden ? null : <p className="text-zinc-600 text-sm">{link.href}</p>}
                 </div>
               </div>
               <ArrowRightIcon className="h-6 w-6 text-gray-500 dark:text-gray-400 hover:translate-x-2 transform transition-all duration-200 ease-in-out" />

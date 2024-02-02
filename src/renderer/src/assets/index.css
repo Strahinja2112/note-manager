@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.glass {
+}
+
 @layer base {
   :root {
     --background: 240 10% 3.9%;
@@ -37,9 +40,10 @@
   #root {
     @apply h-screen;
     background-color: transparent !important;
-    /* opacity: 0.99; */
-    border-radius: 10px;
+    opacity: 0.99;
     overflow: hidden;
+    backdrop-filter: blur(11px);
+    -webkit-backdrop-filter: blur(11px);
   }
 
   ::-webkit-scrollbar {
