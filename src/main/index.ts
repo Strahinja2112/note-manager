@@ -87,13 +87,3 @@ function handleWindowEvents(): void {
     }
   });
 }
-
-function getWindowData() {
-  function closeWindow() {}
-
-  return {
-    actions: {
-      closeWindow
-    }
-  };
-}
