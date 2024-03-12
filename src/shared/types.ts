@@ -1,19 +1,13 @@
 import { deleteNote, getNotes, readNoteData, renameNote, saveNote } from "src/main/lib";
 
-export type NoteInfo = {
+export type TNoteInfo = {
   title: string;
   lastEditTime: number;
 };
 
-export type PossibleLocations = "main" | "settings";
+export type TRoute = "editor" | "settings";
 
-export type TGetNotes = typeof getNotes;
-export type TReadNoteData = typeof readNoteData;
-export type TSaveNote = typeof saveNote;
-export type TRenameNote = typeof renameNote;
-export type TDeleteNote = typeof deleteNote;
-
-export type WindowContextAPI = {
+export interface IWindowContextAPI {
   locale: string;
   windowActions: {
     close(): void;
@@ -22,20 +16,20 @@ export type WindowContextAPI = {
   };
   getRootDir: () => Promise<string>;
   openInShell: (path: string) => void;
-  getNotes: TGetNotes;
-  readNoteData: TReadNoteData;
-  saveNote: TSaveNote;
-  renameNote: TRenameNote;
-  deleteNote: TDeleteNote;
-};
+  getNotes: typeof getNotes;
+  readNoteData: typeof readNoteData;
+  saveNote: typeof saveNote;
+  renameNote: typeof renameNote;
+  deleteNote: typeof deleteNote;
+}
 
-export type FileData = NoteInfo & {
+export type FileData = TNoteInfo & {
   type: "file";
   fullPath: string;
   content?: string;
 };
 
-export type FolderData = NoteInfo & {
+export type FolderData = TNoteInfo & {
   type: "folder";
   title: string;
   fullPath: string;

@@ -1,13 +1,11 @@
-import { PossibleLocations } from "@shared/types";
+import { TRoute } from "@shared/types";
 import { create } from "zustand";
 
-type TLocation = {
-  location: PossibleLocations;
-  setLocation(newLocation: PossibleLocations): void;
-};
-
-export const useLocation = create<TLocation>((set) => ({
-  location: "main",
+export const useLocation = create<{
+  location: TRoute;
+  setLocation(newLocation: TRoute): void;
+}>((set) => ({
+  location: "editor",
   setLocation(newLocation) {
     set({
       location: newLocation
