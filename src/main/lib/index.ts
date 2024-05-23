@@ -1,8 +1,8 @@
-import { appDirectoryName, fileEncoding, startingNoteData } from "@shared/constants";
-import { FileData, FileOrFolderData, NoteInfo } from "@shared/types";
 import { dialog } from "electron";
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from "fs-extra";
 import { homedir } from "os";
+import { appDirectoryName, fileEncoding, startingNoteData } from "../../shared/constants";
+import { FileData, FileOrFolderData, TNoteInfo } from "../../shared/types";
 
 type FileOrFolder =
   | string
@@ -48,7 +48,7 @@ async function readAllFilesAndFolders(path: string, extension?: string): Promise
   }
 }
 
-async function getNoteInfo(filePath: string): Promise<NoteInfo> {
+async function getNoteInfo(filePath: string): Promise<TNoteInfo> {
   const fileStats = await stat(filePath);
 
   const filePathParts = filePath.split("\\");

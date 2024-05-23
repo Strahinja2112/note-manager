@@ -32,7 +32,7 @@ export default function Settings({}: Props) {
   const { setLocation } = useLocation();
   return (
     <main className="flex-1 relative bg-zinc-900/40 p-4 md:p-6 flex flex-col items-center justify-center rounded-none">
-      <X className="absolute top-2 right-2 cursor-pointer" onClick={() => setLocation("main")} />
+      <X className="absolute top-2 right-2 cursor-pointer" onClick={() => setLocation("editor")} />
       <div className="flex flex-col items-center justify-center h-screen space-y-10">
         <div className="space-y-2 flex border-b items-center pb-2 justify-center flex-col">
           <h1 className="text-3xl font-bold">Note Manager</h1>

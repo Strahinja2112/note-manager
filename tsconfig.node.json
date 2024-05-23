@@ -5,7 +5,7 @@
     "src/main/**/*",
     "src/preload/*",
     "src/shared/**/*"
-  ],
+, "src/shared/types.ts", "src/shared/constants.ts"  ],
   "compilerOptions": {
     "composite": true,
     "types": [
