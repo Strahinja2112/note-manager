@@ -23,7 +23,7 @@ const links = [
   {
     icon: Book,
     title: "Learn more about the project",
-    href: "https://portfolio-strahinja.vercel.app/projects/notemanager",
+    href: "https://strahinja.vercel.app/projects/notemanager",
     hidden: true
   }
 ];
