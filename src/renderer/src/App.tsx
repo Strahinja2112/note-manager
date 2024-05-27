@@ -1,4 +1,3 @@
-import { mainComponents } from "@shared/constants";
 import { useRef } from "react";
 import { Toaster } from "react-hot-toast";
 import Editor from "./components/Editor";
@@ -14,8 +13,6 @@ export default function App() {
   const { filesAndFolders } = useNotes();
   const { location } = useLocation();
 
-  const MainComp = mainComponents[location];
-
   return (
     <RootLayout>
       <Toaster
@@ -28,7 +25,7 @@ export default function App() {
           position: "bottom-left"
         }}
       />
-      {MainComp ? <MainComp /> : <>NO FOUND</>}
+      {location === "main" ? <Editor /> : <Settings />}
       {filesAndFolders.length > 0 ? (
         <Sidebar
           onSelect={() => {
